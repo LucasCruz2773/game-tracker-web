@@ -8,9 +8,13 @@ export function useLogout() {
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      // Drop every cached response that belonged to the previous user.
-      queryClient.clear();
+      // Updating the session query (instead of clearing the whole cache) keeps
+      // its observers attached, so <RequireAuth> sees the logout and redirects.
       queryClient.setQueryData(currentUserQueryKey, null);
+      // Drop every other cached response that belonged to the previous user.
+      queryClient.removeQueries({
+        predicate: (query) => query.queryKey[0] !== currentUserQueryKey[0],
+      });
     },
   });
 }
