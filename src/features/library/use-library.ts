@@ -49,7 +49,7 @@ function storeEntry(
   entry: LibraryEntry | null,
 ) {
   queryClient.setQueryData(libraryQueryKeys.entry(gameId), entry);
-  return queryClient.invalidateQueries({ queryKey: libraryQueryKeys.lists() });
+  return queryClient.invalidateQueries({ queryKey: libraryQueryKeys.all });
 }
 
 export function useAddToLibrary(gameId: string) {

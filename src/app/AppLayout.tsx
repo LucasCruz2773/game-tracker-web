@@ -6,6 +6,7 @@ import { useAuthenticatedUser } from '../features/auth/use-current-user';
 const NAV_ITEMS = [
   { to: '/', label: 'Explorar', end: true },
   { to: '/library', label: 'Minha biblioteca', end: false },
+  { to: '/dashboard', label: 'Resumo', end: false },
 ];
 
 export function AppLayout() {

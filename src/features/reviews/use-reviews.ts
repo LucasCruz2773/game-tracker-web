@@ -45,6 +45,7 @@ function refreshReviewQueries(
   review: Review | null,
 ) {
   queryClient.setQueryData(reviewQueryKeys.mine(gameId), review);
+  void queryClient.invalidateQueries({ queryKey: ['library', 'stats'] });
   return queryClient.invalidateQueries({ queryKey: reviewQueryKeys.lists() });
 }
 

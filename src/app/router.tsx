@@ -3,6 +3,7 @@ import { LoginPage } from '../features/auth/pages/LoginPage';
 import { RequireAuth } from '../features/auth/components/RequireAuth';
 import { GameDetailsPage } from '../features/games/pages/GameDetailsPage';
 import { GamesPage } from '../features/games/pages/GamesPage';
+import { DashboardPage } from '../features/dashboard/pages/DashboardPage';
 import { LibraryPage } from '../features/library/pages/LibraryPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { RouteErrorPage } from '../pages/RouteErrorPage';
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
               { index: true, element: <GamesPage /> },
               { path: 'games/:gameId', element: <GameDetailsPage /> },
               { path: 'library', element: <LibraryPage /> },
+              { path: 'dashboard', element: <DashboardPage /> },
             ],
           },
         ],
