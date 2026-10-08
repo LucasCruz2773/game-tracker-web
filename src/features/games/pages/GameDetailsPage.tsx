@@ -5,6 +5,7 @@ import { Spinner } from '../../../components/Spinner';
 import { isApiError } from '../../../lib/api-client';
 import { formatIsoDate } from '../../../lib/dates';
 import { LibraryPanel } from '../../library/components/LibraryPanel';
+import { ReviewsSection } from '../../reviews/components/ReviewsSection';
 import { catalogErrorDescription } from '../catalog-errors';
 import { GameCover } from '../components/GameCover';
 import type { GameDetails, GameTag } from '../games.types';
@@ -77,6 +78,8 @@ function GameDetailsView({ game }: { game: GameDetails }) {
               {game.description || 'Sem descrição disponível.'}
             </p>
           </section>
+
+          <ReviewsSection gameId={game.id} />
         </div>
 
         <aside className="lg:sticky lg:top-6 lg:self-start">

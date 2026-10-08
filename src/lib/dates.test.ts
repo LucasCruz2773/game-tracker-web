@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatIsoDate, todayIsoDate } from './dates';
+import { formatIsoDate, formatReviewDate, todayIsoDate } from './dates';
 
 describe('todayIsoDate', () => {
   it('uses the local calendar day, not the UTC one', () => {
@@ -11,6 +11,14 @@ describe('todayIsoDate', () => {
 
   it('pads single-digit months and days', () => {
     expect(todayIsoDate(new Date(2026, 0, 5))).toBe('2026-01-05');
+  });
+});
+
+describe('formatReviewDate', () => {
+  it('formats timestamps in pt-BR', () => {
+    expect(formatReviewDate('2026-09-30T15:00:00.000Z')).toMatch(
+      /30 de set\.? de 2026/,
+    );
   });
 });
 

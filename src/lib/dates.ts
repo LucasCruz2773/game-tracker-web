@@ -33,3 +33,17 @@ export function formatIsoDate(isoDate: IsoDate): string {
 export function isoDateYear(isoDate: IsoDate): string {
   return isoDate.slice(0, 4);
 }
+
+const reviewDateFormatter = new Intl.DateTimeFormat('pt-BR', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
+
+/** Formats an ISO timestamp from the API in the user's local time zone. */
+export function formatReviewDate(isoTimestamp: string): string {
+  const date = new Date(isoTimestamp);
+  return Number.isNaN(date.getTime())
+    ? isoTimestamp
+    : reviewDateFormatter.format(date);
+}
