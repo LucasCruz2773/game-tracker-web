@@ -11,7 +11,9 @@ const isCi = Boolean(process.env.CI);
 export default defineConfig({
   testDir: './e2e',
   testMatch: '**/*.e2e.ts',
-  fullyParallel: true,
+  // Every spec shares one API instance and one test database.
+  workers: 1,
+  fullyParallel: false,
   forbidOnly: isCi,
   retries: isCi ? 1 : 0,
   reporter: isCi ? 'github' : 'list',
