@@ -55,7 +55,7 @@ export function ReviewsSection({ gameId }: ReviewsSectionProps) {
             onRetry={() => void refetchMine()}
           />
         ) : (
-          <MyReviewForm gameId={gameId} review={myReview} />
+          <MyReviewForm key={gameId} gameId={gameId} review={myReview} />
         )}
       </div>
 

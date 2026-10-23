@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import {
   dangerButtonClasses,
   inputClasses,
@@ -28,12 +28,6 @@ export function MyReviewForm({ gameId, review }: MyReviewFormProps) {
   const updateReview = useUpdateReview(gameId, review?.id ?? '');
   const deleteReview = useDeleteReview(gameId, review?.id ?? '');
 
-  useEffect(() => {
-    setRating(review?.rating ?? 8);
-    setBody(review?.body ?? '');
-    setConfirmingRemoval(false);
-  }, [review?.id]);
-
   const isBusy =
     createReview.isPending || updateReview.isPending || deleteReview.isPending;
   const isEditing = review !== null;
@@ -46,11 +40,27 @@ export function MyReviewForm({ gameId, review }: MyReviewFormProps) {
       rating,
       body: body.trim() === '' ? null : body.trim(),
     };
+    const syncSavedReview = (savedReview: Review) => {
+      setRating(savedReview.rating);
+      setBody(savedReview.body ?? '');
+      setConfirmingRemoval(false);
+    };
+
     if (isEditing) {
-      updateReview.mutate(payload);
+      updateReview.mutate(payload, { onSuccess: syncSavedReview });
     } else {
-      createReview.mutate(payload);
+      createReview.mutate(payload, { onSuccess: syncSavedReview });
     }
+  }
+
+  function handleDelete() {
+    deleteReview.mutate(undefined, {
+      onSuccess: () => {
+        setRating(8);
+        setBody('');
+        setConfirmingRemoval(false);
+      },
+    });
   }
 
   const mutationError =
@@ -110,7 +120,7 @@ export function MyReviewForm({ gameId, review }: MyReviewFormProps) {
                   type="button"
                   className={dangerButtonClasses}
                   disabled={isBusy}
-                  onClick={() => deleteReview.mutate()}
+                  onClick={handleDelete}
                 >
                   {deleteReview.isPending ? 'Excluindo…' : 'Sim, excluir'}
                 </button>
