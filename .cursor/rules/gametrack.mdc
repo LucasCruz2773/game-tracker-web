@@ -1,0 +1,42 @@
+---
+description: GameTrack Web project context and development rules
+alwaysApply: true
+---
+
+# GameTrack Web
+
+This repository contains the React frontend for GameTrack. Its sibling API is
+maintained independently at:
+https://github.com/LucasCruz2773/game-tracker-api
+
+Use Node.js 24. Do not downgrade it or change the configured engine/version
+unless explicitly requested.
+
+## Architecture
+
+- React, TypeScript, Vite, React Router and Tailwind CSS
+- Organize code by feature: auth, games, library, reviews and dashboard
+- Use TanStack Query for server state
+- Use local state for local UI; add Zustand only for genuine shared client state
+- The frontend communicates exclusively through the backend REST API
+- Never import backend/database models or expose external API credentials
+- Handle loading, error and empty states and keep the UI responsive
+
+The backend OpenAPI document is the source of truth for the HTTP contract.
+When a full-stack change is needed, use a corresponding branch and cross-link
+the pull requests in both repositories.
+
+## Development
+
+- Build incrementally and avoid premature abstractions
+- Preserve strict typing and avoid `any`
+- Add meaningful component/unit/E2E tests for important user flows
+- Do not rewrite unrelated code
+- Keep `.env` untracked and document configuration in `.env.example`
+- Before adding a dependency, confirm current stable support for Node.js 24
+
+Use small Conventional Commits, for example `feat(library): add status filter`.
+Run Git commands in this repository, not in the parent workspace.
+
+Current priority: keep the existing MVP production-ready before adding social,
+queue, recommendation or AI features.
