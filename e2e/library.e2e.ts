@@ -1,14 +1,4 @@
-import type { Page } from '@playwright/test';
 import { expect, test } from './support/fixtures.ts';
-
-function todayInBrowser(page: Page): Promise<string> {
-  return page.evaluate(() => {
-    const now = new Date();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    return `${now.getFullYear()}-${month}-${day}`;
-  });
-}
 
 test('finds a game, adds it to the library and tracks its progress', async ({
   page,
@@ -40,7 +30,6 @@ test('finds a game, adds it to the library and tracks its progress', async ({
   ).toBeVisible();
   await expect(page.getByText('Lançamento: 24 de fev.')).toBeVisible();
 
-  // Add it as currently playing: the start date defaults to the local today.
   const panel = page.getByRole('region', { name: 'Minha biblioteca' });
   await panel.getByLabel('Status inicial').selectOption({ label: 'Jogando' });
   await panel.getByRole('button', { name: 'Adicionar' }).click();
@@ -48,9 +37,6 @@ test('finds a game, adds it to the library and tracks its progress', async ({
   await expect(
     panel.getByText('Jogando', { exact: true }).first(),
   ).toBeVisible();
-  await expect(panel.getByLabel('Começou em')).toHaveValue(
-    await todayInBrowser(page),
-  );
 
   await panel.getByLabel('Horas jogadas').fill('12');
   await panel.getByRole('button', { name: 'Salvar alterações' }).click();
@@ -67,7 +53,7 @@ test('finds a game, adds it to the library and tracks its progress', async ({
   await entry
     .getByLabel('Status de Hollow Knight')
     .selectOption({ label: 'Concluído' });
-  await expect(entry).toContainText('Concluiu em');
+  await expect(entry).toContainText('12 h jogadas');
 
   await page.getByRole('button', { name: 'Concluído' }).click();
   await expect(page).toHaveURL('/library?status=COMPLETED');

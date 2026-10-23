@@ -5,9 +5,7 @@ import {
   primaryButtonClasses,
   secondaryButtonClasses,
 } from '../../../components/form-classes';
-import { todayIsoDate } from '../../../lib/dates';
 import {
-  changeFormStatus,
   isSameFormValues,
   toEntryChanges,
   toFormValues,
@@ -37,8 +35,8 @@ export function LibraryEntryForm({ entry }: LibraryEntryFormProps) {
   const isDirty = !isSameFormValues(values, savedValues);
   const isBusy = updateEntry.isPending || removeEntry.isPending;
 
-  function updateField(field: 'hoursPlayed' | 'startedAt' | 'completedAt') {
-    return (value: string) => setValues({ ...values, [field]: value });
+  function updateHoursPlayed(value: string) {
+    setValues({ ...values, hoursPlayed: value });
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -58,9 +56,7 @@ export function LibraryEntryForm({ entry }: LibraryEntryFormProps) {
             id="library-status"
             value={values.status}
             disabled={isBusy}
-            onChange={(status) =>
-              setValues(changeFormStatus(values, status, todayIsoDate()))
-            }
+            onChange={(status) => setValues({ ...values, status })}
           />
         </Field>
 
@@ -78,41 +74,10 @@ export function LibraryEntryForm({ entry }: LibraryEntryFormProps) {
             step={1}
             value={values.hoursPlayed}
             disabled={isBusy}
-            onChange={(event) => updateField('hoursPlayed')(event.target.value)}
+            onChange={(event) => updateHoursPlayed(event.target.value)}
             className={inputClasses}
           />
         </Field>
-
-        <Field label="Começou em" htmlFor="library-started-at">
-          <input
-            id="library-started-at"
-            type="date"
-            value={values.startedAt}
-            disabled={isBusy}
-            onChange={(event) => updateField('startedAt')(event.target.value)}
-            className={inputClasses}
-          />
-        </Field>
-
-        {values.status === 'COMPLETED' && (
-          <Field
-            label="Concluiu em"
-            htmlFor="library-completed-at"
-            error={errors.completedAt}
-          >
-            <input
-              id="library-completed-at"
-              type="date"
-              value={values.completedAt}
-              min={values.startedAt || undefined}
-              disabled={isBusy}
-              onChange={(event) =>
-                updateField('completedAt')(event.target.value)
-              }
-              className={inputClasses}
-            />
-          </Field>
-        )}
       </div>
 
       <div className="flex flex-wrap items-center gap-2">

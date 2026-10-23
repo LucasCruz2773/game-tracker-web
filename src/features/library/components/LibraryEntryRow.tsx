@@ -1,8 +1,6 @@
 import { Link } from 'react-router';
-import { formatIsoDate, todayIsoDate } from '../../../lib/dates';
 import { GameCover } from '../../games/components/GameCover';
 import { libraryErrorMessage } from '../library-errors';
-import { applyStatusChange } from '../library-progress';
 import type { LibraryEntry, LibraryStatus } from '../library.types';
 import { useUpdateLibraryEntry } from '../use-library';
 import { LibraryStatusSelect } from './LibraryStatusSelect';
@@ -16,14 +14,10 @@ export function LibraryEntryRow({ entry }: LibraryEntryRowProps) {
   const updateEntry = useUpdateLibraryEntry(game.id);
 
   function changeStatus(status: LibraryStatus) {
-    updateEntry.mutate(applyStatusChange(entry, status, todayIsoDate()));
+    updateEntry.mutate({ status });
   }
 
-  const details = [
-    `${entry.hoursPlayed.toLocaleString('pt-BR')} h jogadas`,
-    entry.startedAt && `Começou em ${formatIsoDate(entry.startedAt)}`,
-    entry.completedAt && `Concluiu em ${formatIsoDate(entry.completedAt)}`,
-  ].filter(Boolean);
+  const details = `${entry.hoursPlayed.toLocaleString('pt-BR')} h jogadas`;
 
   return (
     <li className="flex flex-col gap-3 rounded-xl border border-zinc-800 bg-zinc-900/60 p-3 sm:flex-row sm:items-center">
@@ -38,7 +32,7 @@ export function LibraryEntryRow({ entry }: LibraryEntryRowProps) {
         />
         <div className="min-w-0 space-y-1">
           <h3 className="truncate font-medium">{game.title}</h3>
-          <p className="text-xs text-zinc-500">{details.join(' · ')}</p>
+          <p className="text-xs text-zinc-500">{details}</p>
         </div>
       </Link>
 

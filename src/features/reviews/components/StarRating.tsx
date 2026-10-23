@@ -14,6 +14,24 @@ interface StarRatingProps {
 
 const STAR_COUNT = 5;
 
+/** 0 = empty, 0.5 = half, 1 = full */
+function starFill(starValue: number, starIndex: number): number {
+  return Math.min(1, Math.max(0, starValue - starIndex + 1));
+}
+
+function StarPath({ className = '' }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className={`size-7 ${className}`}
+      fill="currentColor"
+    >
+      <path d="M12 2l2.9 6.26 6.8.59-5.15 4.46 1.55 6.64L12 17.27 5.9 20.95l1.55-6.64L2.3 8.85l6.8-.59L12 2z" />
+    </svg>
+  );
+}
+
 export function StarRating({
   rating,
   onChange,
@@ -46,23 +64,24 @@ export function StarRating({
       >
         {Array.from({ length: STAR_COUNT }, (_, index) => {
           const starIndex = index + 1;
-          const fill = Math.min(1, Math.max(0, starValue - starIndex + 1));
+          const fill = starFill(starValue, starIndex);
 
           return (
             <span key={starIndex} className="relative inline-block size-7">
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 text-zinc-700"
-              >
-                ★
-              </span>
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 overflow-hidden text-amber-400"
-                style={{ width: `${fill * 100}%` }}
-              >
-                ★
-              </span>
+              <StarPath className="text-zinc-700" />
+              {fill > 0 && (
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 text-amber-400"
+                  style={
+                    fill < 1
+                      ? { clipPath: `inset(0 ${(1 - fill) * 100}% 0 0)` }
+                      : undefined
+                  }
+                >
+                  <StarPath />
+                </span>
+              )}
               {interactive && (
                 <>
                   <button
@@ -72,7 +91,7 @@ export function StarRating({
                     aria-label={`${formatStarRating(starIndex - 0.5)} estrelas`}
                     disabled={disabled}
                     onClick={() => setFromStar(starIndex, true)}
-                    className="absolute inset-y-0 left-0 w-1/2 cursor-pointer focus-visible:outline-2 focus-visible:outline-violet-500"
+                    className="absolute inset-y-0 left-0 z-10 w-1/2 cursor-pointer focus-visible:outline-2 focus-visible:outline-violet-500"
                   />
                   <button
                     type="button"
@@ -81,7 +100,7 @@ export function StarRating({
                     aria-label={`${formatStarRating(starIndex)} estrelas`}
                     disabled={disabled}
                     onClick={() => setFromStar(starIndex, false)}
-                    className="absolute inset-y-0 right-0 w-1/2 cursor-pointer focus-visible:outline-2 focus-visible:outline-violet-500"
+                    className="absolute inset-y-0 right-0 z-10 w-1/2 cursor-pointer focus-visible:outline-2 focus-visible:outline-violet-500"
                   />
                 </>
               )}

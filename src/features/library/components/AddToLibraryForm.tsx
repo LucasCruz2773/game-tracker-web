@@ -1,8 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { primaryButtonClasses } from '../../../components/form-classes';
-import { todayIsoDate } from '../../../lib/dates';
 import { libraryErrorMessage } from '../library-errors';
-import { applyStatusChange } from '../library-progress';
 import type { LibraryStatus } from '../library.types';
 import { useAddToLibrary } from '../use-library';
 import { LibraryStatusSelect } from './LibraryStatusSelect';
@@ -17,7 +15,7 @@ export function AddToLibraryForm({ gameId }: AddToLibraryFormProps) {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    addToLibrary.mutate(applyStatusChange(null, status, todayIsoDate()));
+    addToLibrary.mutate({ status });
   }
 
   return (
