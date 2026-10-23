@@ -1,48 +1,52 @@
 # GameTrack Web
 
-Frontend da aplicação GameTrack.
+[![CI](https://github.com/LucasCruz2773/game-tracker-web/actions/workflows/ci.yml/badge.svg)](https://github.com/LucasCruz2773/game-tracker-web/actions/workflows/ci.yml)
 
-Backend: [game-tracker-api](https://github.com/LucasCruz2773/game-tracker-api).
+Frontend do **GameTrack**, uma aplicação responsiva para descobrir jogos, organizar uma biblioteca pessoal, acompanhar progresso, publicar reviews e visualizar estatísticas.
+
+- Demonstração: https://game-tracker-web-two.vercel.app
+- Backend: [LucasCruz2773/game-tracker-api](https://github.com/LucasCruz2773/game-tracker-api)
+- Health da API: https://game-tracker-api-68q1.onrender.com/health
+
+> A API utiliza uma instância gratuita do Render. O primeiro acesso após um período de inatividade pode levar alguns segundos.
+
+## Funcionalidades
+
+- Login seguro com Google.
+- Busca, paginação e visualização de detalhes de jogos.
+- Biblioteca filtrável por `Backlog`, `Jogando`, `Concluído` e `Abandonado`.
+- Registro de horas jogadas e datas de início e conclusão.
+- Criação, edição e exclusão de reviews.
+- Notas em meias estrelas, de 0,5 a 5.
+- Dashboard com totais, horas jogadas e média de avaliações.
+- Estados de carregamento, erro e conteúdo vazio.
+- Interface responsiva em português brasileiro.
 
 ## Stack
 
-- React 19 + TypeScript
-- Vite 8
-- React Router 8
-- TanStack Query 5
+- React 19 e TypeScript
+- Vite 8 e React Router 8
+- TanStack Query 5 para estado do servidor
 - Tailwind CSS 4
+- Vitest e Playwright
+- Oxlint e Prettier
+- Vercel para hospedagem e proxy da API
 
-## Requisitos
+## Arquitetura
 
-- Node.js **24**
-- API GameTrack rodando (ou proxy apontando para ela)
+```mermaid
+flowchart LR
+  UI["React + React Router"]
+  Query["TanStack Query"]
+  Proxy["/api no mesmo origin"]
+  API["NestJS API no Render"]
 
-## Setup
-
-```bash
-npm install
-npm run dev
+  UI --> Query --> Proxy --> API
 ```
 
-App em `http://localhost:5173`.
+Os componentes não acessam o banco ou a RAWG diretamente. Toda informação de servidor passa pela API e é gerenciada pelo TanStack Query. Estado temporário de interface permanece local; não há uma store global sem necessidade concreta.
 
-O Vite faz proxy de `/api` → `http://localhost:3000` (mesmo origin para o cookie de sessão). Para outro host da API:
-
-```bash
-API_PROXY_TARGET=http://localhost:3100 npm run dev
-```
-
-## Scripts
-
-| Comando             | Descrição                      |
-| ------------------- | ------------------------------ |
-| `npm run dev`       | Servidor de desenvolvimento    |
-| `npm run build`     | Build de produção              |
-| `npm run preview`   | Preview do build               |
-| `npm run typecheck` | Verificação TypeScript         |
-| `npm run test`      | Testes unitários (Vitest)      |
-| `npm run test:e2e`  | Testes end-to-end (Playwright) |
-| `npm run lint`      | Oxlint                         |
+Em desenvolvimento, o Vite encaminha `/api` para `http://localhost:3000`. Em produção, a Vercel aplica a mesma estratégia e encaminha `/api/*` para o Render, mantendo os cookies no mesmo origin percebido pelo navegador.
 
 ## Rotas
 
@@ -54,60 +58,104 @@ API_PROXY_TARGET=http://localhost:3100 npm run dev
 | `/library`       | Biblioteca com filtros por status |
 | `/dashboard`     | Estatísticas da biblioteca        |
 
-Rotas autenticadas passam por `RequireAuth`; sessão vem de `GET /api/auth/me`.
+Rotas privadas usam `RequireAuth`; a sessão é consultada em `GET /api/auth/me`.
 
-## Estrutura
+## Executando localmente
+
+### Requisitos
+
+- Node.js **24**
+- [GameTrack API](https://github.com/LucasCruz2773/game-tracker-api) em execução
+
+### Instalação
+
+```bash
+cp .env.example .env
+npm install
+npm run dev
+```
+
+A aplicação ficará disponível em `http://localhost:5173`.
+
+Por padrão, o Vite encaminha `/api` para `http://localhost:3000`. Para usar outra instância:
+
+```bash
+API_PROXY_TARGET=http://localhost:3100 npm run dev
+```
+
+`API_PROXY_TARGET` é usado somente pelo servidor de desenvolvimento e não contém segredos.
+
+## Organização do código
 
 ```text
 src/
-├── app/              # router, layout
+├── app/             # router e layout
+├── components/      # componentes compartilhados
 ├── features/
 │   ├── auth/
+│   ├── dashboard/
 │   ├── games/
 │   ├── library/
-│   ├── reviews/
-│   └── dashboard/
-├── components/
-├── lib/              # api-client, dates
-└── pages/
+│   └── reviews/
+├── lib/             # cliente HTTP, datas e query client
+├── pages/           # páginas de erro e rota inexistente
+└── types/
 ```
 
-Estado de servidor: TanStack Query. Sem Zustand global — apenas estado local de UI.
+Cada feature reúne seus componentes, hooks, tipos e integração HTTP para reduzir acoplamento entre domínios.
 
-## Testes e2e
+## Qualidade e testes
+
+```bash
+npm run format:check
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```
+
+Para os fluxos completos:
 
 ```bash
 npm run test:e2e
 ```
 
-O Playwright sobe automaticamente:
+O Playwright inicia automaticamente:
 
-1. Servidor fake RAWG (porta 3200)
-2. API em modo e2e (porta 3100, banco de teste)
-3. Vite (porta 5199)
+1. Um servidor RAWG falso na porta `3200`.
+2. A API em modo de teste na porta `3100`.
+3. O Vite na porta `5199`.
 
-A API deve estar em `../game-tracker-api` (ou defina `GAMETRACK_API_DIR`). Os testes criam usuários via `e2e:session` na API, sem OAuth real.
+Os cenários cobrem autenticação, biblioteca, reviews e dashboard sem depender do OAuth real. A API deve estar em `../game-tracker-api`; outra localização pode ser informada em `GAMETRACK_API_DIR`.
 
-UI em **português (pt-BR)**.
+O GitHub Actions executa formatação, lint, typecheck, testes unitários e build em pushes para `main` e pull requests.
 
-## Build
+## Scripts
 
-```bash
-npm run build
-```
+| Comando             | Descrição                        |
+| ------------------- | -------------------------------- |
+| `npm run dev`       | Inicia o Vite                    |
+| `npm run build`     | Verifica os tipos e gera `dist/` |
+| `npm run preview`   | Serve o build localmente         |
+| `npm run typecheck` | Verifica TypeScript              |
+| `npm test`          | Executa testes unitários         |
+| `npm run test:e2e`  | Executa os fluxos Playwright     |
+| `npm run lint`      | Executa o Oxlint                 |
 
-Sirva os arquivos estáticos com qualquer host. Em produção, configure o reverse proxy para encaminhar `/api` à API real e defina `FRONTEND_URL` na API para o domínio do frontend.
+## Deploy
 
-Se frontend e API forem publicados em origens diferentes, a configuração de
-produção também precisa contemplar CORS e cookies com credenciais. Prefira um
-reverse proxy que mantenha `/api` no mesmo origin sempre que possível.
+O frontend está hospedado na Vercel. O arquivo [`vercel.json`](./vercel.json):
 
-## Desenvolvimento full-stack
+- encaminha `/api/*` para a API no Render;
+- entrega `index.html` para as rotas da SPA.
 
-Este é um repositório independente. Os testes E2E integrados esperam, por
-padrão, que o clone da API esteja em `../game-tracker-api`. Outra localização
-pode ser informada por `GAMETRACK_API_DIR`.
+O frontend não recebe credenciais do banco, Google ou RAWG. Esses segredos existem somente no ambiente da API.
 
-Mudanças que alterem o contrato HTTP devem ter branches correspondentes e PRs
-com links cruzados nos dois repositórios. O Swagger/OpenAPI da API é a fonte de
-verdade do contrato.
+## Roadmap
+
+- Perfil público.
+- Listas personalizadas.
+- Importação da biblioteca Steam.
+- Recursos sociais e recomendações.
+
+Funcionalidades de infraestrutura serão adicionadas somente quando houver uma necessidade concreta.
