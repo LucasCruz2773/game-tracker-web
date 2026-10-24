@@ -1,5 +1,6 @@
 import { apiRequest, apiUrl } from '../../lib/api-client';
 import type {
+  SteamImportInput,
   SteamImportResult,
   SteamIntegrationStatus,
   SteamSyncResult,
@@ -17,10 +18,12 @@ export function syncSteamLibrary(): Promise<SteamSyncResult> {
   return apiRequest('/integrations/steam/sync', { method: 'POST' });
 }
 
-export function importSteamGames(appIds: number[]): Promise<SteamImportResult> {
+export function importSteamGames(
+  input: SteamImportInput,
+): Promise<SteamImportResult> {
   return apiRequest('/integrations/steam/import', {
     method: 'POST',
-    body: { appIds },
+    body: input,
   });
 }
 

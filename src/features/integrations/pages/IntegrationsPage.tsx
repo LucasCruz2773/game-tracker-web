@@ -8,6 +8,8 @@ import {
   secondaryButtonClasses,
 } from '../../../components/form-classes';
 import { Spinner } from '../../../components/Spinner';
+import { LibraryStatusSelect } from '../../library/components/LibraryStatusSelect';
+import type { LibraryStatus } from '../../library/library.types';
 import { STEAM_CONNECT_URL } from '../steam.api';
 import type { SteamLibraryItem } from '../steam.types';
 import {
@@ -25,6 +27,7 @@ export function IntegrationsPage() {
   const sync = useSyncSteamLibrary();
   const importGames = useImportSteamGames();
   const disconnect = useDisconnectSteam();
+  const [importStatus, setImportStatus] = useState<LibraryStatus>('COMPLETED');
   const [selectedAppIds, setSelectedAppIds] = useState<Set<number>>(new Set());
   const [newlyImportedAppIds, setNewlyImportedAppIds] = useState<Set<number>>(
     new Set(),
@@ -81,19 +84,22 @@ export function IntegrationsPage() {
 
   function submitImport() {
     const appIds = [...selectedAppIds];
-    importGames.mutate(appIds, {
-      onSuccess: (result) => {
-        const unmatched = new Set(result.unmatchedAppIds);
-        setNewlyImportedAppIds(
-          (current) =>
-            new Set([
-              ...current,
-              ...appIds.filter((appId) => !unmatched.has(appId)),
-            ]),
-        );
-        setSelectedAppIds(new Set(result.unmatchedAppIds));
+    importGames.mutate(
+      { appIds, status: importStatus },
+      {
+        onSuccess: (result) => {
+          const unmatched = new Set(result.unmatchedAppIds);
+          setNewlyImportedAppIds(
+            (current) =>
+              new Set([
+                ...current,
+                ...appIds.filter((appId) => !unmatched.has(appId)),
+              ]),
+          );
+          setSelectedAppIds(new Set(result.unmatchedAppIds));
+        },
       },
-    });
+    );
   }
 
   return (
@@ -195,8 +201,8 @@ export function IntegrationsPage() {
               <h2 className="text-lg font-semibold">Jogos encontrados</h2>
               <p className="text-sm text-zinc-400">
                 {sync.data.totalPlayed} com tempo jogado de{' '}
-                {sync.data.totalOwned} jogos na conta. Novos jogos entram como
-                Backlog para você definir o status correto.
+                {sync.data.totalOwned} jogos na conta. Escolha abaixo o status
+                aplicado aos novos jogos importados.
               </p>
             </div>
             {availableItems.length > 0 && (
@@ -230,7 +236,16 @@ export function IntegrationsPage() {
             })}
           </ul>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-end gap-3">
+            <label className="grid gap-1 text-sm text-zinc-300">
+              Status dos jogos
+              <LibraryStatusSelect
+                value={importStatus}
+                onChange={setImportStatus}
+                disabled={importGames.isPending}
+                aria-label="Status dos jogos importados"
+              />
+            </label>
             <button
               type="button"
               onClick={submitImport}

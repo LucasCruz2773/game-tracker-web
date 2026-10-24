@@ -1,3 +1,5 @@
+import type { LibraryStatus } from '../library/library.types';
+
 export interface SteamAccount {
   steamId: string;
   personaName: string;
@@ -28,4 +30,9 @@ export interface SteamImportResult {
   imported: number;
   updated: number;
   unmatchedAppIds: number[];
+}
+
+export interface SteamImportInput {
+  appIds: number[];
+  status: LibraryStatus;
 }
