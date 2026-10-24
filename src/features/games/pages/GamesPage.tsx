@@ -28,7 +28,7 @@ export function GamesPage() {
 
   return (
     <section className="space-y-6">
-      <header className="retro-panel overflow-hidden rounded-xl">
+      <header className="retro-panel retro-screen overflow-hidden rounded-xl">
         <div className="grid min-h-64 md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)]">
           <div className="relative z-10 flex flex-col justify-center p-6 sm:p-8 lg:p-10">
             <p className="retro-kicker">Game database // Select title</p>

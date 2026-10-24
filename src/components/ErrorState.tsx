@@ -12,12 +12,12 @@ export function ErrorState({ title, description, onRetry }: ErrorStateProps) {
     >
       <p className="retro-kicker">System error</p>
       <h2 className="retro-title text-lg font-semibold">{title}</h2>
-      {description && <p className="text-sm text-zinc-400">{description}</p>}
+      {description && <p className="text-sm text-zinc-700">{description}</p>}
       {onRetry && (
         <button
           type="button"
           onClick={onRetry}
-          className="mt-2 rounded-lg border border-brand-500 bg-brand-600 px-4 py-2 text-sm font-bold tracking-wide uppercase shadow-[3px_3px_0_rgba(0,0,0,0.7)] hover:bg-brand-500 focus-visible:outline-2 focus-visible:outline-brand-500"
+          className="theme-primary-button mt-2 rounded-lg border px-4 py-2 text-sm font-bold tracking-wide uppercase shadow-[3px_3px_0_rgba(70,70,76,0.55)] focus-visible:outline-2"
         >
           Tentar novamente
         </button>

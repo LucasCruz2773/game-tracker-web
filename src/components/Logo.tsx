@@ -5,7 +5,7 @@ interface LogoProps {
 export function Logo({ large = false }: LogoProps) {
   return (
     <span
-      className={`inline-flex items-center font-black tracking-wider uppercase ${
+      className={`logo-wordmark inline-flex items-center font-black tracking-wider uppercase ${
         large ? 'gap-3 text-2xl' : 'gap-2.5 text-lg'
       }`}
     >

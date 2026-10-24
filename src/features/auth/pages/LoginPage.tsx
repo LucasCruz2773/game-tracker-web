@@ -1,6 +1,7 @@
 import { Navigate, useSearchParams } from 'react-router';
 import { LoadingScreen } from '../../../components/LoadingScreen';
 import { Logo } from '../../../components/Logo';
+import { ThemeToggle } from '../../../components/ThemeToggle';
 import { GoogleSignInButton } from '../components/GoogleSignInButton';
 import { signInErrorMessage } from '../sign-in-errors';
 import { useCurrentUser } from '../use-current-user';
@@ -19,15 +20,18 @@ export function LoginPage() {
   }
 
   return (
-    <main className="retro-grid flex min-h-screen items-center justify-center p-6">
-      <div className="retro-panel w-full max-w-md space-y-8 border-t-brand-500 p-8 sm:p-10">
+    <main className="retro-grid relative flex min-h-screen items-center justify-center p-6">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
+      <div className="retro-panel w-full max-w-md space-y-8 p-8 sm:p-10">
         <div className="space-y-3 text-center">
           <Logo />
           <p className="retro-kicker pt-3">Player database // Online</p>
           <h1 className="retro-title text-2xl font-semibold">
             Sua biblioteca de jogos
           </h1>
-          <p className="text-sm text-zinc-400">
+          <p className="text-sm text-zinc-700">
             Organize o que você está jogando, acompanhe seu progresso e avalie o
             que já terminou.
           </p>

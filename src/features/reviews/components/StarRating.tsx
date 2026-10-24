@@ -55,10 +55,10 @@ export function StarRating({
   return (
     <div className="space-y-1.5">
       <div className="flex items-center gap-2">
-        <span className="text-xs font-bold tracking-wider text-zinc-300 uppercase">
+        <span className="text-xs font-bold tracking-wider text-zinc-800 uppercase">
           {label}
         </span>
-        <span className="border border-zinc-700 bg-black/30 px-1.5 py-0.5 text-xs text-zinc-400 tabular-nums">
+        <span className="border border-zinc-600 bg-white/25 px-1.5 py-0.5 text-xs text-zinc-800 tabular-nums">
           {formatStarRating(starValue)} / 5
         </span>
       </div>
@@ -74,7 +74,7 @@ export function StarRating({
           return (
             <span
               key={starIndex}
-              className={`retro-rating-star relative grid size-8 place-items-center border bg-black/45 shadow-[2px_2px_0_rgba(0,0,0,0.7)] ${
+              className={`retro-rating-star relative grid size-8 place-items-center border bg-zinc-700/25 shadow-[2px_2px_0_rgba(70,70,76,0.5)] ${
                 fill > 0 ? 'border-amber-500/60' : 'border-zinc-700'
               }`}
             >

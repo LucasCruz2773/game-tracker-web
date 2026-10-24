@@ -7,7 +7,7 @@ interface PaginationProps {
 }
 
 const buttonClasses =
-  'rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-xs font-bold tracking-wide uppercase shadow-[2px_2px_0_rgba(0,0,0,0.65)] hover:border-brand-500 hover:text-white disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-brand-500';
+  'console-page-button rounded-lg border px-3 py-1.5 text-xs font-bold tracking-wide uppercase disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-2';
 
 export function Pagination({
   page,
@@ -34,7 +34,7 @@ export function Pagination({
       >
         Anterior
       </button>
-      <span className="font-mono text-xs text-zinc-400 uppercase">
+      <span className="font-mono text-xs font-bold text-zinc-700 uppercase">
         Página {page} de {totalPages.toLocaleString('pt-BR')}
       </span>
       <button

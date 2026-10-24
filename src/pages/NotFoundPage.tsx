@@ -11,7 +11,7 @@ export function NotFoundPage() {
       </h1>
       <Link
         to="/"
-        className="text-sm text-zinc-300 underline-offset-2 hover:underline"
+        className="text-sm font-bold text-zinc-800 underline-offset-2 hover:underline"
       >
         Voltar para o início
       </Link>

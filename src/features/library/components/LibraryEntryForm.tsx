@@ -105,7 +105,7 @@ export function LibraryEntryForm({ entry }: LibraryEntryFormProps) {
         <div className="ml-auto flex items-center gap-2">
           {confirmingRemoval ? (
             <>
-              <span className="text-sm text-zinc-400">
+              <span className="text-sm text-zinc-700">
                 Remover da biblioteca?
               </span>
               <button
@@ -169,7 +169,7 @@ function Field({ label, htmlFor, error, children }: FieldProps) {
     <div className="space-y-1.5">
       <label
         htmlFor={htmlFor}
-        className="block text-sm font-medium text-zinc-300"
+        className="block text-sm font-medium text-zinc-800"
       >
         {label}
       </label>

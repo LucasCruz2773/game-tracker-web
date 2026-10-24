@@ -20,7 +20,7 @@ export function AddToLibraryForm({ gameId }: AddToLibraryFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <p className="text-sm text-zinc-400">
+      <p className="text-sm text-zinc-700">
         Este jogo ainda não está na sua biblioteca.
       </p>
       <div className="flex gap-2">

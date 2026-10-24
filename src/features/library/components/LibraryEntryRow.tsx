@@ -73,15 +73,22 @@ export function LibraryEntryRow({ entry }: LibraryEntryRowProps) {
           <h3 className="line-clamp-2 min-h-12 font-bold leading-snug tracking-wide uppercase">
             {game.title}
           </h3>
-          <p className="text-xs tracking-wide text-zinc-500 uppercase">
+          <p className="text-xs tracking-wide text-zinc-700 uppercase">
             {details}
           </p>
+          <div
+            aria-hidden="true"
+            className="memory-card-caption mt-2 flex items-center justify-between border px-2 py-1 text-[0.58rem] tracking-[0.14em] uppercase"
+          >
+            <span>Save data</span>
+            <span>Slot A</span>
+          </div>
         </div>
       </Link>
 
-      <div className="mt-auto space-y-3 border-t border-zinc-700/70 bg-black/15 p-3">
+      <div className="mt-auto space-y-3 border-t border-zinc-600/70 bg-white/15 p-3">
         <div className="space-y-1">
-          <p className="text-[0.65rem] tracking-wider text-zinc-500 uppercase">
+          <p className="text-[0.65rem] tracking-wider text-zinc-700 uppercase">
             Status
           </p>
           <LibraryStatusSelect

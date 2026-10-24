@@ -64,7 +64,7 @@ function GameDetailsView({ game }: { game: GameDetails }) {
             <p className="retro-kicker">Game data // Detail view</p>
             <h1 className="retro-title text-3xl font-semibold">{game.title}</h1>
             {game.releaseDate && (
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-zinc-700">
                 Lançamento: {formatIsoDate(game.releaseDate)}
               </p>
             )}
@@ -75,7 +75,7 @@ function GameDetailsView({ game }: { game: GameDetails }) {
 
           <section className="space-y-2">
             <h2 className="font-semibold">Sobre</h2>
-            <p className="whitespace-pre-line text-sm leading-relaxed text-zinc-300">
+            <p className="whitespace-pre-line text-sm leading-relaxed text-zinc-800">
               {game.description || 'Sem descrição disponível.'}
             </p>
           </section>
@@ -98,7 +98,7 @@ function TagList({ label, tags }: { label: string; tags: GameTag[] }) {
 
   return (
     <section className="space-y-2">
-      <h2 className="text-sm font-medium text-zinc-400">{label}</h2>
+      <h2 className="text-sm font-medium text-zinc-700">{label}</h2>
       <ul className="flex flex-wrap gap-2">
         {tags.map((tag) => (
           <li

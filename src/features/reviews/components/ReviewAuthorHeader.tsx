@@ -22,14 +22,14 @@ export function ReviewAuthorHeader({ author }: ReviewAuthorHeaderProps) {
       ) : (
         <span
           aria-hidden="true"
-          className="flex size-9 items-center justify-center rounded-full bg-brand-700 text-sm font-semibold uppercase"
+          className="theme-avatar flex size-9 items-center justify-center rounded-full border text-sm font-semibold uppercase"
         >
           {name.charAt(0)}
         </span>
       )}
       <div className="min-w-0 leading-tight">
         <p className="truncate font-medium">{name}</p>
-        <p className="text-xs text-zinc-500">@{author.username}</p>
+        <p className="text-xs text-zinc-700">@{author.username}</p>
       </div>
     </div>
   );

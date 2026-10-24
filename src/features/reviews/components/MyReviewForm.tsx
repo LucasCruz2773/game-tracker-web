@@ -80,7 +80,7 @@ export function MyReviewForm({ gameId, review }: MyReviewFormProps) {
       <div className="space-y-1.5">
         <label
           htmlFor="review-body"
-          className="block text-sm font-medium text-zinc-300"
+          className="block text-sm font-medium text-zinc-800"
         >
           Sua avaliação
         </label>
@@ -113,7 +113,7 @@ export function MyReviewForm({ gameId, review }: MyReviewFormProps) {
           <div className="ml-auto flex items-center gap-2">
             {confirmingRemoval ? (
               <>
-                <span className="text-sm text-zinc-400">
+                <span className="text-sm text-zinc-700">
                   Excluir avaliação?
                 </span>
                 <button

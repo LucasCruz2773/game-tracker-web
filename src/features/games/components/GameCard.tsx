@@ -27,11 +27,18 @@ export function GameCard({ game }: GameCardProps) {
         <h3 className="line-clamp-2 font-bold leading-snug tracking-wide uppercase">
           {game.title}
         </h3>
-        <p className="font-mono text-[0.68rem] text-zinc-500 uppercase">
+        <p className="font-mono text-[0.68rem] text-zinc-700 uppercase">
           {[game.releaseDate && isoDateYear(game.releaseDate), genres]
             .filter(Boolean)
             .join(' · ')}
         </p>
+        <div
+          aria-hidden="true"
+          className="memory-card-caption mt-2 flex items-center justify-between border px-2 py-1 text-[0.58rem] tracking-[0.14em] uppercase"
+        >
+          <span>Memory card</span>
+          <span>Slot A</span>
+        </div>
       </div>
     </Link>
   );

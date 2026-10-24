@@ -150,7 +150,7 @@ export function IntegrationsPage() {
       <header>
         <p className="retro-kicker">External device // Link account</p>
         <h1 className="retro-title mt-1 text-2xl font-semibold">Integrações</h1>
-        <p className="mt-1 text-sm text-zinc-400">
+        <p className="mt-1 text-sm text-zinc-700">
           Importe jogos e mantenha as horas jogadas sincronizadas.
         </p>
       </header>
@@ -180,11 +180,11 @@ export function IntegrationsPage() {
             )}
             <div>
               <h2 className="text-lg font-semibold">Steam</h2>
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-zinc-700">
                 {account ? account.personaName : 'Nenhuma conta conectada'}
               </p>
               {account?.lastSyncedAt && (
-                <p className="mt-1 text-xs text-zinc-500">
+                <p className="mt-1 text-xs text-zinc-700">
                   Última sincronização:{' '}
                   {new Date(account.lastSyncedAt).toLocaleString('pt-BR')}
                 </p>
@@ -243,7 +243,7 @@ export function IntegrationsPage() {
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold">Jogos encontrados</h2>
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-zinc-700">
                 {sync.data.totalPlayed} com tempo jogado de{' '}
                 {sync.data.totalOwned} jogos na conta. Escolha o status de cada
                 jogo antes de importá-lo.
@@ -300,7 +300,7 @@ export function IntegrationsPage() {
                 ? 'Importando…'
                 : `Importar selecionados (${selectedAppIds.size})`}
             </button>
-            <span className="text-xs text-zinc-500">
+            <span className="text-xs text-zinc-700">
               Limite de {MAX_IMPORT_SIZE} jogos por importação.
             </span>
           </div>
@@ -348,7 +348,7 @@ function SteamGameRow({
   onRatingChange,
 }: SteamGameRowProps) {
   return (
-    <li className="flex flex-wrap items-center gap-3 bg-zinc-900/40 px-4 py-3">
+    <li className="flex flex-wrap items-center gap-3 bg-white/10 px-4 py-3">
       <input
         type="checkbox"
         aria-label={`Selecionar ${item.name}`}
@@ -359,7 +359,7 @@ function SteamGameRow({
       />
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">{item.name}</p>
-        <p className="text-xs text-zinc-500">Steam AppID {item.appId}</p>
+        <p className="text-xs text-zinc-700">Steam AppID {item.appId}</p>
       </div>
       {!imported && (
         <div className="grid gap-2">

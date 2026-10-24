@@ -29,7 +29,7 @@ export function OptionalStarRating({
           type="button"
           disabled={disabled}
           onClick={() => onChange(null)}
-          className="text-xs text-zinc-400 hover:text-zinc-200 disabled:pointer-events-none disabled:opacity-50"
+          className="text-xs text-zinc-700 hover:text-zinc-950 disabled:pointer-events-none disabled:opacity-50"
         >
           Remover nota
         </button>

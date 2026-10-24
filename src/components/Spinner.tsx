@@ -8,7 +8,7 @@ export function Spinner({ label = 'Carregando…' }: SpinnerProps) {
   return (
     <span
       role="status"
-      className="inline-flex flex-col items-center gap-2 text-zinc-300"
+      className="inline-flex flex-col items-center gap-2 text-zinc-700"
     >
       <span aria-hidden="true" className="flex items-center gap-2">
         <span className="retro-loading-cursor text-xl leading-none text-brand-500">

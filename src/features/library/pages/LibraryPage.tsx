@@ -114,7 +114,7 @@ export function LibraryPage() {
             action={
               <Link
                 to="/"
-                className="rounded-lg border border-brand-400 bg-brand-600 px-4 py-2 text-sm font-bold tracking-wide uppercase hover:bg-brand-500"
+                className="theme-primary-button rounded-lg border px-4 py-2 text-sm font-bold tracking-wide uppercase"
               >
                 Explorar jogos
               </Link>
@@ -170,8 +170,8 @@ function StatusFilter({ selected, onSelect }: StatusFilterProps) {
             onClick={() => onSelect(option.value)}
             className={`rounded-lg border px-4 py-1.5 text-xs font-bold tracking-wide uppercase transition focus-visible:outline-2 focus-visible:outline-brand-500 ${
               isSelected
-                ? 'border-brand-500 bg-brand-600 text-white shadow-[2px_2px_0_rgba(0,0,0,0.8)]'
-                : 'border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-zinc-500 hover:bg-zinc-800'
+                ? 'theme-nav-active shadow-[2px_2px_0_rgba(0,0,0,0.8)]'
+                : 'console-filter-button'
             }`}
           >
             {option.label}

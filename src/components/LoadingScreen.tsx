@@ -14,7 +14,7 @@ export function LoadingScreen() {
         </div>
         <div
           aria-hidden="true"
-          className="mt-5 flex items-center justify-between text-[0.65rem] tracking-widest text-zinc-500 uppercase"
+          className="mt-5 flex items-center justify-between text-[0.65rem] tracking-widest text-zinc-700 uppercase"
         >
           <span>Memory OK</span>
           <span className="text-emerald-400">● Online</span>

@@ -13,7 +13,7 @@ export function EmptyState({ title, description, action }: EmptyStateProps) {
         No data // 00
       </p>
       <h2 className="retro-title font-semibold">{title}</h2>
-      {description && <p className="text-sm text-zinc-400">{description}</p>}
+      {description && <p className="text-sm text-zinc-700">{description}</p>}
       {action && <div className="mt-2">{action}</div>}
     </div>
   );

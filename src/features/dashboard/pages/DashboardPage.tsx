@@ -38,7 +38,7 @@ export function DashboardPage() {
         <header>
           <p className="retro-kicker">Player stats // No data</p>
           <h1 className="retro-title mt-1 text-2xl font-semibold">Resumo</h1>
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 text-sm text-zinc-700">
             Uma visão geral da sua biblioteca e das suas avaliações.
           </p>
         </header>
@@ -48,7 +48,7 @@ export function DashboardPage() {
           action={
             <Link
               to="/"
-              className="rounded-lg border border-brand-400 bg-brand-600 px-4 py-2 text-sm font-bold tracking-wide uppercase hover:bg-brand-500"
+              className="theme-primary-button rounded-lg border px-4 py-2 text-sm font-bold tracking-wide uppercase"
             >
               Explorar jogos
             </Link>
@@ -68,7 +68,7 @@ export function DashboardPage() {
       <header>
         <p className="retro-kicker">Player stats // Memory data</p>
         <h1 className="retro-title mt-1 text-2xl font-semibold">Resumo</h1>
-        <p className="mt-1 text-sm text-zinc-400">
+        <p className="mt-1 text-sm text-zinc-700">
           Uma visão geral da sua biblioteca e das suas avaliações.
         </p>
       </header>
