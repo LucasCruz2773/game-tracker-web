@@ -5,6 +5,7 @@ import { GameDetailsPage } from '../features/games/pages/GameDetailsPage';
 import { GamesPage } from '../features/games/pages/GamesPage';
 import { DashboardPage } from '../features/dashboard/pages/DashboardPage';
 import { LibraryPage } from '../features/library/pages/LibraryPage';
+import { IntegrationsPage } from '../features/integrations/pages/IntegrationsPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { RouteErrorPage } from '../pages/RouteErrorPage';
 import { AppLayout } from './AppLayout';
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
               { path: 'games/:gameId', element: <GameDetailsPage /> },
               { path: 'library', element: <LibraryPage /> },
               { path: 'dashboard', element: <DashboardPage /> },
+              { path: 'integrations', element: <IntegrationsPage /> },
             ],
           },
         ],

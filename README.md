@@ -13,6 +13,8 @@ Frontend do **GameTrack**, uma aplicação responsiva para descobrir jogos, orga
 ## Funcionalidades
 
 - Login seguro com Google.
+- Conexão da conta Steam, prévia dos jogos jogados e importação em lotes.
+- Sincronização manual das horas registradas pela Steam.
 - Busca, paginação e visualização de detalhes de jogos.
 - Biblioteca filtrável por `Backlog`, `Jogando`, `Concluído` e `Abandonado`.
 - Registro de horas jogadas e datas de início e conclusão.
@@ -31,6 +33,7 @@ Frontend do **GameTrack**, uma aplicação responsiva para descobrir jogos, orga
 - Vitest e Playwright
 - Oxlint e Prettier
 - Vercel para hospedagem e proxy da API
+- Steam OpenID para vínculo seguro da conta
 
 ## Arquitetura
 
@@ -57,6 +60,7 @@ Em desenvolvimento, o Vite encaminha `/api` para `http://localhost:3000`. Em pro
 | `/games/:gameId` | Detalhes, biblioteca e reviews    |
 | `/library`       | Biblioteca com filtros por status |
 | `/dashboard`     | Estatísticas da biblioteca        |
+| `/integrations`  | Importação e sincronização Steam  |
 
 Rotas privadas usam `RequireAuth`; a sessão é consultada em `GET /api/auth/me`.
 
@@ -95,6 +99,7 @@ src/
 │   ├── auth/
 │   ├── dashboard/
 │   ├── games/
+│   ├── integrations/
 │   ├── library/
 │   └── reviews/
 ├── lib/             # cliente HTTP, datas e query client
@@ -126,7 +131,7 @@ O Playwright inicia automaticamente:
 2. A API em modo de teste na porta `3100`.
 3. O Vite na porta `5199`.
 
-Os cenários cobrem autenticação, biblioteca, reviews e dashboard sem depender do OAuth real. A API deve estar em `../game-tracker-api`; outra localização pode ser informada em `GAMETRACK_API_DIR`.
+Os cenários cobrem autenticação, biblioteca, reviews e dashboard sem depender do OAuth real. A API possui testes próprios para a integração Steam. Ela deve estar em `../game-tracker-api`; outra localização pode ser informada em `GAMETRACK_API_DIR`.
 
 O GitHub Actions executa formatação, lint, typecheck, testes unitários e build em pushes para `main` e pull requests.
 

@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { to: '/', label: 'Explorar', end: true },
   { to: '/library', label: 'Minha biblioteca', end: false },
   { to: '/dashboard', label: 'Resumo', end: false },
+  { to: '/integrations', label: 'Integrações', end: false },
 ];
 
 export function AppLayout() {
