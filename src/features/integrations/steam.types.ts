@@ -33,6 +33,10 @@ export interface SteamImportResult {
 }
 
 export interface SteamImportInput {
-  appIds: number[];
+  games: SteamImportSelection[];
+}
+
+export interface SteamImportSelection {
+  appId: number;
   status: LibraryStatus;
 }

@@ -27,7 +27,9 @@ export function IntegrationsPage() {
   const sync = useSyncSteamLibrary();
   const importGames = useImportSteamGames();
   const disconnect = useDisconnectSteam();
-  const [importStatus, setImportStatus] = useState<LibraryStatus>('COMPLETED');
+  const [importStatuses, setImportStatuses] = useState<
+    Map<number, LibraryStatus>
+  >(new Map());
   const [selectedAppIds, setSelectedAppIds] = useState<Set<number>>(new Set());
   const [newlyImportedAppIds, setNewlyImportedAppIds] = useState<Set<number>>(
     new Set(),
@@ -82,20 +84,37 @@ export function IntegrationsPage() {
     );
   }
 
+  function changeImportStatus(appId: number, status: LibraryStatus) {
+    setImportStatuses((current) => {
+      const next = new Map(current);
+      next.set(appId, status);
+      return next;
+    });
+  }
+
   function submitImport() {
     const appIds = [...selectedAppIds];
     importGames.mutate(
-      { appIds, status: importStatus },
+      {
+        games: appIds.map((appId) => ({
+          appId,
+          status: importStatuses.get(appId) ?? 'COMPLETED',
+        })),
+      },
       {
         onSuccess: (result) => {
           const unmatched = new Set(result.unmatchedAppIds);
-          setNewlyImportedAppIds(
-            (current) =>
-              new Set([
-                ...current,
-                ...appIds.filter((appId) => !unmatched.has(appId)),
-              ]),
+          const importedAppIds = appIds.filter(
+            (appId) => !unmatched.has(appId),
           );
+          setNewlyImportedAppIds(
+            (current) => new Set([...current, ...importedAppIds]),
+          );
+          setImportStatuses((current) => {
+            const next = new Map(current);
+            importedAppIds.forEach((appId) => next.delete(appId));
+            return next;
+          });
           setSelectedAppIds(new Set(result.unmatchedAppIds));
         },
       },
@@ -201,8 +220,8 @@ export function IntegrationsPage() {
               <h2 className="text-lg font-semibold">Jogos encontrados</h2>
               <p className="text-sm text-zinc-400">
                 {sync.data.totalPlayed} com tempo jogado de{' '}
-                {sync.data.totalOwned} jogos na conta. Escolha abaixo o status
-                aplicado aos novos jogos importados.
+                {sync.data.totalOwned} jogos na conta. Escolha o status de cada
+                jogo antes de importá-lo.
               </p>
             </div>
             {availableItems.length > 0 && (
@@ -230,22 +249,18 @@ export function IntegrationsPage() {
                   selectionDisabled={
                     !selected && selectedAppIds.size >= MAX_IMPORT_SIZE
                   }
+                  importStatus={importStatuses.get(item.appId) ?? 'COMPLETED'}
+                  statusDisabled={importGames.isPending}
                   onToggle={() => toggleSelection(item.appId)}
+                  onStatusChange={(nextStatus) =>
+                    changeImportStatus(item.appId, nextStatus)
+                  }
                 />
               );
             })}
           </ul>
 
-          <div className="flex flex-wrap items-end gap-3">
-            <label className="grid gap-1 text-sm text-zinc-300">
-              Status dos jogos
-              <LibraryStatusSelect
-                value={importStatus}
-                onChange={setImportStatus}
-                disabled={importGames.isPending}
-                aria-label="Status dos jogos importados"
-              />
-            </label>
+          <div className="flex flex-wrap items-center gap-3">
             <button
               type="button"
               onClick={submitImport}
@@ -283,7 +298,10 @@ interface SteamGameRowProps {
   imported: boolean;
   selected: boolean;
   selectionDisabled: boolean;
+  importStatus: LibraryStatus;
+  statusDisabled: boolean;
   onToggle: () => void;
+  onStatusChange: (status: LibraryStatus) => void;
 }
 
 function SteamGameRow({
@@ -291,10 +309,13 @@ function SteamGameRow({
   imported,
   selected,
   selectionDisabled,
+  importStatus,
+  statusDisabled,
   onToggle,
+  onStatusChange,
 }: SteamGameRowProps) {
   return (
-    <li className="flex items-center gap-3 bg-zinc-900/40 px-4 py-3">
+    <li className="flex flex-wrap items-center gap-3 bg-zinc-900/40 px-4 py-3">
       <input
         type="checkbox"
         aria-label={`Selecionar ${item.name}`}
@@ -307,6 +328,16 @@ function SteamGameRow({
         <p className="truncate text-sm font-medium">{item.name}</p>
         <p className="text-xs text-zinc-500">Steam AppID {item.appId}</p>
       </div>
+      {!imported && (
+        <div className="w-40">
+          <LibraryStatusSelect
+            value={importStatus}
+            onChange={onStatusChange}
+            disabled={statusDisabled}
+            aria-label={`Status de ${item.name}`}
+          />
+        </div>
+      )}
       <div className="text-right">
         <p className="text-sm tabular-nums">
           {formatPlaytime(item.playtimeMinutes)}
