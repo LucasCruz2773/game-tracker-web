@@ -39,4 +39,5 @@ export interface SteamImportInput {
 export interface SteamImportSelection {
   appId: number;
   status: LibraryStatus;
+  rating?: number;
 }

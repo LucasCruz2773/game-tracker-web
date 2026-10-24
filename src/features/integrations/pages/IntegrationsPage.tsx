@@ -10,6 +10,7 @@ import {
 import { Spinner } from '../../../components/Spinner';
 import { LibraryStatusSelect } from '../../library/components/LibraryStatusSelect';
 import type { LibraryStatus } from '../../library/library.types';
+import { RatingSelect } from '../../reviews/components/RatingSelect';
 import { STEAM_CONNECT_URL } from '../steam.api';
 import type { SteamLibraryItem } from '../steam.types';
 import {
@@ -30,6 +31,9 @@ export function IntegrationsPage() {
   const [importStatuses, setImportStatuses] = useState<
     Map<number, LibraryStatus>
   >(new Map());
+  const [importRatings, setImportRatings] = useState<Map<number, number>>(
+    new Map(),
+  );
   const [selectedAppIds, setSelectedAppIds] = useState<Set<number>>(new Set());
   const [newlyImportedAppIds, setNewlyImportedAppIds] = useState<Set<number>>(
     new Set(),
@@ -92,6 +96,18 @@ export function IntegrationsPage() {
     });
   }
 
+  function changeImportRating(appId: number, rating: number | null) {
+    setImportRatings((current) => {
+      const next = new Map(current);
+      if (rating === null) {
+        next.delete(appId);
+      } else {
+        next.set(appId, rating);
+      }
+      return next;
+    });
+  }
+
   function submitImport() {
     const appIds = [...selectedAppIds];
     importGames.mutate(
@@ -99,6 +115,9 @@ export function IntegrationsPage() {
         games: appIds.map((appId) => ({
           appId,
           status: importStatuses.get(appId) ?? 'COMPLETED',
+          ...(importRatings.has(appId) && {
+            rating: importRatings.get(appId),
+          }),
         })),
       },
       {
@@ -111,6 +130,11 @@ export function IntegrationsPage() {
             (current) => new Set([...current, ...importedAppIds]),
           );
           setImportStatuses((current) => {
+            const next = new Map(current);
+            importedAppIds.forEach((appId) => next.delete(appId));
+            return next;
+          });
+          setImportRatings((current) => {
             const next = new Map(current);
             importedAppIds.forEach((appId) => next.delete(appId));
             return next;
@@ -250,10 +274,14 @@ export function IntegrationsPage() {
                     !selected && selectedAppIds.size >= MAX_IMPORT_SIZE
                   }
                   importStatus={importStatuses.get(item.appId) ?? 'COMPLETED'}
+                  importRating={importRatings.get(item.appId) ?? null}
                   statusDisabled={importGames.isPending}
                   onToggle={() => toggleSelection(item.appId)}
                   onStatusChange={(nextStatus) =>
                     changeImportStatus(item.appId, nextStatus)
+                  }
+                  onRatingChange={(nextRating) =>
+                    changeImportRating(item.appId, nextRating)
                   }
                 />
               );
@@ -299,9 +327,11 @@ interface SteamGameRowProps {
   selected: boolean;
   selectionDisabled: boolean;
   importStatus: LibraryStatus;
+  importRating: number | null;
   statusDisabled: boolean;
   onToggle: () => void;
   onStatusChange: (status: LibraryStatus) => void;
+  onRatingChange: (rating: number | null) => void;
 }
 
 function SteamGameRow({
@@ -310,9 +340,11 @@ function SteamGameRow({
   selected,
   selectionDisabled,
   importStatus,
+  importRating,
   statusDisabled,
   onToggle,
   onStatusChange,
+  onRatingChange,
 }: SteamGameRowProps) {
   return (
     <li className="flex flex-wrap items-center gap-3 bg-zinc-900/40 px-4 py-3">
@@ -329,12 +361,18 @@ function SteamGameRow({
         <p className="text-xs text-zinc-500">Steam AppID {item.appId}</p>
       </div>
       {!imported && (
-        <div className="w-40">
+        <div className="grid w-40 gap-2">
           <LibraryStatusSelect
             value={importStatus}
             onChange={onStatusChange}
             disabled={statusDisabled}
             aria-label={`Status de ${item.name}`}
+          />
+          <RatingSelect
+            value={importRating}
+            onChange={onRatingChange}
+            disabled={statusDisabled}
+            aria-label={`Nota de ${item.name}`}
           />
         </div>
       )}

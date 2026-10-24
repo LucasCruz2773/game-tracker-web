@@ -1,5 +1,12 @@
 import { Link } from 'react-router';
 import { GameCover } from '../../games/components/GameCover';
+import { RatingSelect } from '../../reviews/components/RatingSelect';
+import { reviewErrorMessage } from '../../reviews/review-errors';
+import {
+  useCreateReview,
+  useDeleteReview,
+  useUpdateReview,
+} from '../../reviews/use-reviews';
 import { libraryErrorMessage } from '../library-errors';
 import type { LibraryEntry, LibraryStatus } from '../library.types';
 import { useUpdateLibraryEntry } from '../use-library';
@@ -12,10 +19,42 @@ interface LibraryEntryRowProps {
 export function LibraryEntryRow({ entry }: LibraryEntryRowProps) {
   const { game } = entry;
   const updateEntry = useUpdateLibraryEntry(game.id);
+  const createReview = useCreateReview(game.id);
+  const updateReview = useUpdateReview(game.id, entry.review?.id ?? '');
+  const deleteReview = useDeleteReview(game.id, entry.review?.id ?? '');
+  const ratingPending =
+    createReview.isPending || updateReview.isPending || deleteReview.isPending;
 
   function changeStatus(status: LibraryStatus) {
     updateEntry.mutate({ status });
   }
+
+  function changeRating(rating: number | null) {
+    if (rating === null) {
+      if (
+        entry.review &&
+        window.confirm(
+          `Remover sua nota e eventual avaliação de ${game.title}?`,
+        )
+      ) {
+        deleteReview.mutate();
+      }
+    } else if (entry.review) {
+      updateReview.mutate({ rating });
+    } else {
+      createReview.mutate({ rating });
+    }
+  }
+
+  const displayedRating = createReview.isPending
+    ? createReview.variables.rating
+    : updateReview.isPending
+      ? updateReview.variables.rating
+      : deleteReview.isPending
+        ? null
+        : (entry.review?.rating ?? null);
+  const ratingError =
+    createReview.error ?? updateReview.error ?? deleteReview.error;
 
   const details = `${entry.hoursPlayed.toLocaleString('pt-BR')} h jogadas`;
 
@@ -49,6 +88,17 @@ export function LibraryEntryRow({ entry }: LibraryEntryRowProps) {
         {updateEntry.isError && (
           <p role="alert" className="text-xs text-red-300">
             {libraryErrorMessage(updateEntry.error)}
+          </p>
+        )}
+        <RatingSelect
+          value={displayedRating}
+          onChange={changeRating}
+          disabled={ratingPending}
+          aria-label={`Nota de ${game.title}`}
+        />
+        {ratingError && (
+          <p role="alert" className="text-xs text-red-300">
+            {reviewErrorMessage(ratingError)}
           </p>
         )}
       </div>

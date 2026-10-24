@@ -26,6 +26,13 @@ export interface LibraryEntry extends LibraryProgress {
   createdAt: string;
   updatedAt: string;
   game: GameSummary;
+  review: LibraryEntryReview | null;
+}
+
+export interface LibraryEntryReview {
+  id: string;
+  rating: number;
+  starRating: number;
 }
 
 export interface LibraryEntryChanges {

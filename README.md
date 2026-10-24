@@ -13,10 +13,10 @@ Frontend do **GameTrack**, uma aplicação responsiva para descobrir jogos, orga
 ## Funcionalidades
 
 - Login seguro com Google.
-- Conexão da conta Steam, prévia dos jogos jogados e importação em lotes.
+- Conexão da conta Steam e importação em lotes com status e nota por jogo.
 - Sincronização manual das horas registradas pela Steam.
 - Busca, paginação e visualização de detalhes de jogos.
-- Biblioteca filtrável por `Backlog`, `Jogando`, `Concluído` e `Abandonado`.
+- Biblioteca filtrável, com edição direta de status e nota de cada jogo.
 - Registro de horas jogadas e datas de início e conclusão.
 - Criação, edição e exclusão de reviews.
 - Notas em meias estrelas, de 0,5 a 5.

@@ -6,6 +6,7 @@ import {
   type QueryClient,
 } from '@tanstack/react-query';
 import { isApiError } from '../../lib/api-client';
+import { libraryQueryKeys } from '../library/use-library';
 import {
   createReview,
   deleteReview,
@@ -45,7 +46,7 @@ function refreshReviewQueries(
   review: Review | null,
 ) {
   queryClient.setQueryData(reviewQueryKeys.mine(gameId), review);
-  void queryClient.invalidateQueries({ queryKey: ['library', 'stats'] });
+  void queryClient.invalidateQueries({ queryKey: libraryQueryKeys.all });
   return queryClient.invalidateQueries({ queryKey: reviewQueryKeys.lists() });
 }
 
