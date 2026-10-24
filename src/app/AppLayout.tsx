@@ -5,6 +5,7 @@ import {
   ScrollRestoration,
   useLocation,
 } from 'react-router';
+import { useState } from 'react';
 import { Logo } from '../components/Logo';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { UserMenu } from '../features/auth/components/UserMenu';
@@ -48,9 +49,22 @@ const SYMBOL_CLASSES = [
   'text-blue-400',
 ];
 
+const SIDEBAR_STORAGE_KEY = 'gametrack-sidebar-collapsed';
+
+function isSidebarInitiallyCollapsed() {
+  try {
+    return window.localStorage.getItem(SIDEBAR_STORAGE_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
 export function AppLayout() {
   const currentUser = useAuthenticatedUser();
   const location = useLocation();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(
+    isSidebarInitiallyCollapsed,
+  );
   const currentSection =
     NAV_ITEMS.find((item) =>
       item.end
@@ -58,9 +72,32 @@ export function AppLayout() {
         : location.pathname.startsWith(item.to),
     )?.shortLabel ?? 'Detalhes do jogo';
 
+  function toggleSidebar() {
+    const nextCollapsed = !sidebarCollapsed;
+
+    try {
+      window.localStorage.setItem(SIDEBAR_STORAGE_KEY, String(nextCollapsed));
+    } catch {
+      // The menu still collapses when storage is unavailable.
+    }
+
+    setSidebarCollapsed(nextCollapsed);
+  }
+
   return (
-    <div className="ps-shell min-h-screen lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
-      <aside className="app-sidebar sticky top-0 hidden h-screen flex-col border-r lg:flex">
+    <div
+      className={`ps-shell min-h-screen lg:grid ${
+        sidebarCollapsed
+          ? 'lg:grid-cols-1'
+          : 'lg:grid-cols-[16rem_minmax(0,1fr)]'
+      }`}
+    >
+      <aside
+        id="app-sidebar"
+        className={`app-sidebar sticky top-0 hidden h-screen flex-col border-r ${
+          sidebarCollapsed ? 'lg:hidden' : 'lg:flex'
+        }`}
+      >
         <div className="app-sidebar-brand flex h-28 items-center border-b px-6">
           <Link
             to="/"
@@ -126,11 +163,45 @@ export function AppLayout() {
             >
               <Logo />
             </Link>
-            <div className="hidden lg:block">
-              <p className="retro-kicker">GameTrack OS // Online</p>
-              <p className="mt-0.5 text-lg tracking-wider text-zinc-950 uppercase">
-                {currentSection}
-              </p>
+            <div className="hidden items-center gap-4 lg:flex">
+              <button
+                type="button"
+                onClick={toggleSidebar}
+                aria-controls="app-sidebar"
+                aria-expanded={!sidebarCollapsed}
+                aria-label={
+                  sidebarCollapsed
+                    ? 'Mostrar menu lateral'
+                    : 'Guardar menu lateral'
+                }
+                title={
+                  sidebarCollapsed
+                    ? 'Mostrar menu lateral'
+                    : 'Guardar menu lateral'
+                }
+                className="theme-toggle pixel-corners inline-flex size-10 items-center justify-center border focus-visible:outline-2"
+              >
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  className="size-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <rect x="3" y="4" width="18" height="16" />
+                  <path d="M9 4v16" />
+                  <path
+                    d={sidebarCollapsed ? 'm13 9 3 3-3 3' : 'm16 9-3 3 3 3'}
+                  />
+                </svg>
+              </button>
+              <div>
+                <p className="retro-kicker">GameTrack OS // Online</p>
+                <p className="mt-0.5 text-lg tracking-wider text-zinc-950 uppercase">
+                  {currentSection}
+                </p>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <ThemeToggle />
