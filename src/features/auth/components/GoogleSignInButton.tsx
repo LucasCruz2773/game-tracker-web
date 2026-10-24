@@ -4,7 +4,7 @@ export function GoogleSignInButton() {
   return (
     <a
       href={GOOGLE_SIGN_IN_URL}
-      className="flex w-full items-center justify-center gap-3 rounded-lg bg-white px-4 py-3 font-medium text-zinc-900 transition hover:bg-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+      className="flex w-full items-center justify-center gap-3 rounded-lg border border-zinc-300 bg-white px-4 py-3 font-bold tracking-wide text-zinc-950 uppercase shadow-[4px_4px_0_#f50022] transition hover:bg-zinc-200 active:translate-x-px active:translate-y-px active:shadow-[2px_2px_0_#f50022] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
     >
       <svg aria-hidden="true" viewBox="0 0 48 48" className="size-5">
         <path

@@ -19,11 +19,14 @@ export function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-6">
-      <div className="w-full max-w-sm space-y-8">
+    <main className="retro-grid flex min-h-screen items-center justify-center p-6">
+      <div className="retro-panel w-full max-w-md space-y-8 border-t-brand-500 p-8 sm:p-10">
         <div className="space-y-3 text-center">
           <Logo />
-          <h1 className="text-2xl font-semibold">Sua biblioteca de jogos</h1>
+          <p className="retro-kicker pt-3">Player database // Online</p>
+          <h1 className="retro-title text-2xl font-semibold">
+            Sua biblioteca de jogos
+          </h1>
           <p className="text-sm text-zinc-400">
             Organize o que você está jogando, acompanhe seu progresso e avalie o
             que já terminou.

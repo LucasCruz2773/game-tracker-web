@@ -25,7 +25,7 @@ export function UserAvatar({ user }: UserAvatarProps) {
   return (
     <span
       aria-hidden="true"
-      className="flex size-8 items-center justify-center rounded-full bg-violet-600 text-sm font-semibold uppercase"
+      className="flex size-8 items-center justify-center rounded-full border border-brand-400 bg-brand-700 text-sm font-semibold uppercase shadow-[0_0_10px_rgba(245,0,34,0.25)]"
     >
       {name.charAt(0)}
     </span>

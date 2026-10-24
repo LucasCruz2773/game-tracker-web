@@ -30,11 +30,11 @@ export function GameSearchForm({
         onChange={(event) => setSearch(event.target.value)}
         maxLength={MAX_SEARCH_LENGTH}
         placeholder="Buscar jogos, ex.: Hollow Knight"
-        className="min-w-0 flex-1 rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2.5 placeholder:text-zinc-500 focus:border-violet-500 focus:outline-none"
+        className="min-w-0 flex-1 rounded-lg border border-zinc-700 bg-black/50 px-4 py-2.5 font-mono text-sm placeholder:text-zinc-600 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500/40"
       />
       <button
         type="submit"
-        className="rounded-lg bg-violet-600 px-5 py-2.5 font-medium hover:bg-violet-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+        className="rounded-lg border border-brand-400 bg-brand-600 px-5 py-2.5 text-sm font-bold tracking-wider uppercase shadow-[3px_3px_0_rgba(0,0,0,0.8)] hover:bg-brand-500 active:translate-x-px active:translate-y-px active:shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
       >
         Buscar
       </button>

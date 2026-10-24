@@ -148,7 +148,8 @@ export function IntegrationsPage() {
   return (
     <section className="space-y-6">
       <header>
-        <h1 className="text-2xl font-semibold">Integrações</h1>
+        <p className="retro-kicker">External device // Link account</p>
+        <h1 className="retro-title mt-1 text-2xl font-semibold">Integrações</h1>
         <p className="mt-1 text-sm text-zinc-400">
           Importe jogos e mantenha as horas jogadas sincronizadas.
         </p>
@@ -163,7 +164,7 @@ export function IntegrationsPage() {
         </Notice>
       )}
 
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-6">
+      <div className="retro-panel rounded-xl p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             {account?.avatarUrl ? (
@@ -259,7 +260,7 @@ export function IntegrationsPage() {
             )}
           </div>
 
-          <ul className="divide-y divide-zinc-800 overflow-hidden rounded-xl border border-zinc-800">
+          <ul className="retro-panel divide-y divide-zinc-800 overflow-hidden rounded-xl">
             {sync.data.items.map((item) => {
               const imported =
                 item.imported || newlyImportedAppIds.has(item.appId);
@@ -354,7 +355,7 @@ function SteamGameRow({
         checked={selected}
         disabled={imported || selectionDisabled}
         onChange={onToggle}
-        className="size-4 accent-violet-600 disabled:opacity-40"
+        className="size-4 accent-brand-600 disabled:opacity-40"
       />
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">{item.name}</p>

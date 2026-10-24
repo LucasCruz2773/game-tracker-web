@@ -28,21 +28,65 @@ export function GamesPage() {
 
   return (
     <section className="space-y-6">
-      <header className="space-y-4">
-        <h1 className="text-2xl font-semibold">
-          {search ? `Resultados para “${search}”` : 'Jogos populares'}
-        </h1>
-        {/* The key resets the input when the URL changes (e.g. browser back). */}
-        <GameSearchForm
-          key={search}
-          initialSearch={search}
-          onSearch={(nextSearch) => updateParams(nextSearch, 1)}
-        />
+      <header className="retro-panel overflow-hidden rounded-xl">
+        <div className="grid min-h-64 md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)]">
+          <div className="relative z-10 flex flex-col justify-center p-6 sm:p-8 lg:p-10">
+            <p className="retro-kicker">Game database // Select title</p>
+            <h1 className="retro-title mt-3 max-w-xl text-3xl leading-tight font-black sm:text-4xl">
+              {search
+                ? `Resultados para “${search}”`
+                : 'Registre sua jornada nos games'}
+            </h1>
+            {!search && (
+              <p className="mt-4 max-w-lg text-base leading-relaxed text-zinc-300">
+                Organize sua biblioteca, acompanhe seu progresso e descubra seu
+                próximo jogo.
+              </p>
+            )}
+          </div>
+
+          <div
+            aria-hidden="true"
+            className="retro-grid relative hidden overflow-hidden border-l border-zinc-600/70 bg-[radial-gradient(circle_at_center,#363b50_0%,#121520_68%)] md:block"
+          >
+            <img
+              src="/gametrack-logo.svg"
+              alt=""
+              className="absolute top-1/2 left-1/2 w-44 -translate-x-1/2 -translate-y-1/2 drop-shadow-[12px_12px_0_rgba(0,0,0,0.55)] lg:w-52"
+            />
+            <span className="absolute top-5 left-6 text-5xl text-emerald-400/60">
+              △
+            </span>
+            <span className="absolute top-8 right-8 text-5xl text-brand-500/70">
+              ○
+            </span>
+            <span className="absolute right-10 bottom-5 text-5xl text-blue-400/60">
+              ×
+            </span>
+            <span className="absolute bottom-8 left-8 text-5xl text-fuchsia-400/60">
+              □
+            </span>
+            <p className="absolute right-0 bottom-0 left-0 bg-black/50 py-2 text-center text-xs tracking-[0.25em] text-zinc-300 uppercase">
+              Press start
+            </p>
+          </div>
+        </div>
+
+        <div className="border-t border-zinc-600/70 bg-zinc-800/70 p-4 sm:p-5">
+          {/* The key resets the input when the URL changes (e.g. browser back). */}
+          <GameSearchForm
+            key={search}
+            initialSearch={search}
+            onSearch={(nextSearch) => updateParams(nextSearch, 1)}
+          />
+        </div>
       </header>
 
-      {isPending ? (
-        <div className="flex justify-center py-16">
-          <Spinner label="Buscando jogos…" />
+      {isPending || isPlaceholderData ? (
+        <div className="flex min-h-64 items-center justify-center py-16">
+          <Spinner
+            label={isPlaceholderData ? 'Atualizando jogos…' : 'Buscando jogos…'}
+          />
         </div>
       ) : isError ? (
         <ErrorState
@@ -57,10 +101,7 @@ export function GamesPage() {
         />
       ) : (
         <>
-          <ul
-            aria-busy={isPlaceholderData}
-            className={`grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 ${isPlaceholderData ? 'opacity-60' : ''}`}
-          >
+          <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
             {data.items.map((game) => (
               <li key={game.id} className="flex">
                 <GameCard game={game} />
@@ -71,7 +112,6 @@ export function GamesPage() {
             page={data.page}
             pageSize={data.pageSize}
             total={data.total}
-            disabled={isPlaceholderData}
             onPageChange={(nextPage) => updateParams(search, nextPage)}
           />
         </>

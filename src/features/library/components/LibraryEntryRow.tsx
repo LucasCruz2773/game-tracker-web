@@ -59,32 +59,41 @@ export function LibraryEntryRow({ entry }: LibraryEntryRowProps) {
   const details = `${entry.hoursPlayed.toLocaleString('pt-BR')} h jogadas`;
 
   return (
-    <li className="flex flex-col gap-3 rounded-xl border border-zinc-800 bg-zinc-900/60 p-3 sm:flex-row sm:items-center">
+    <li className="retro-panel retro-card flex h-full min-w-0 flex-col overflow-hidden rounded-xl">
       <Link
         to={`/games/${game.id}`}
-        className="flex min-w-0 flex-1 items-center gap-4 rounded-lg focus-visible:outline-2 focus-visible:outline-violet-500"
+        className="group block min-w-0 focus-visible:outline-2 focus-visible:outline-brand-500"
       >
         <GameCover
           title={game.title}
           coverUrl={game.coverUrl}
-          className="aspect-video w-28 shrink-0 rounded-md"
+          className="aspect-video w-full border-b border-zinc-700/70 transition group-hover:opacity-90"
         />
-        <div className="min-w-0 space-y-1">
-          <h3 className="truncate font-medium">{game.title}</h3>
-          <p className="text-xs text-zinc-500">{details}</p>
+        <div className="min-w-0 space-y-1 p-3">
+          <h3 className="line-clamp-2 min-h-12 font-bold leading-snug tracking-wide uppercase">
+            {game.title}
+          </h3>
+          <p className="text-xs tracking-wide text-zinc-500 uppercase">
+            {details}
+          </p>
         </div>
       </Link>
 
-      <div className="space-y-1 sm:w-44">
-        <LibraryStatusSelect
-          aria-label={`Status de ${game.title}`}
-          value={
-            (updateEntry.isPending && updateEntry.variables.status) ||
-            entry.status
-          }
-          onChange={changeStatus}
-          disabled={updateEntry.isPending}
-        />
+      <div className="mt-auto space-y-3 border-t border-zinc-700/70 bg-black/15 p-3">
+        <div className="space-y-1">
+          <p className="text-[0.65rem] tracking-wider text-zinc-500 uppercase">
+            Status
+          </p>
+          <LibraryStatusSelect
+            aria-label={`Status de ${game.title}`}
+            value={
+              (updateEntry.isPending && updateEntry.variables.status) ||
+              entry.status
+            }
+            onChange={changeStatus}
+            disabled={updateEntry.isPending}
+          />
+        </div>
         {updateEntry.isError && (
           <p role="alert" className="text-xs text-red-300">
             {libraryErrorMessage(updateEntry.error)}

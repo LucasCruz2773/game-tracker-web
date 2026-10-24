@@ -8,8 +8,11 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-zinc-800 px-6 py-12 text-center">
-      <h2 className="font-semibold">{title}</h2>
+    <div className="retro-panel retro-grid flex flex-col items-center gap-2 rounded-xl border-dashed px-6 py-12 text-center">
+      <p aria-hidden="true" className="retro-kicker">
+        No data // 00
+      </p>
+      <h2 className="retro-title font-semibold">{title}</h2>
       {description && <p className="text-sm text-zinc-400">{description}</p>}
       {action && <div className="mt-2">{action}</div>}
     </div>

@@ -36,7 +36,8 @@ export function DashboardPage() {
     return (
       <section className="space-y-6">
         <header>
-          <h1 className="text-2xl font-semibold">Resumo</h1>
+          <p className="retro-kicker">Player stats // No data</p>
+          <h1 className="retro-title mt-1 text-2xl font-semibold">Resumo</h1>
           <p className="mt-1 text-sm text-zinc-400">
             Uma visão geral da sua biblioteca e das suas avaliações.
           </p>
@@ -47,7 +48,7 @@ export function DashboardPage() {
           action={
             <Link
               to="/"
-              className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium hover:bg-violet-500"
+              className="rounded-lg border border-brand-400 bg-brand-600 px-4 py-2 text-sm font-bold tracking-wide uppercase hover:bg-brand-500"
             >
               Explorar jogos
             </Link>
@@ -65,7 +66,8 @@ export function DashboardPage() {
   return (
     <section className="space-y-8">
       <header>
-        <h1 className="text-2xl font-semibold">Resumo</h1>
+        <p className="retro-kicker">Player stats // Memory data</p>
+        <h1 className="retro-title mt-1 text-2xl font-semibold">Resumo</h1>
         <p className="mt-1 text-sm text-zinc-400">
           Uma visão geral da sua biblioteca e das suas avaliações.
         </p>
@@ -94,7 +96,7 @@ export function DashboardPage() {
           {LIBRARY_STATUSES.map((status) => (
             <li
               key={status}
-              className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3"
+              className="retro-panel retro-card flex items-center justify-between rounded-xl px-4 py-3"
             >
               <span
                 className={`rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${LIBRARY_STATUS_BADGE_CLASSES[status]}`}

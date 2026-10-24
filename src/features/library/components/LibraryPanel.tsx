@@ -16,7 +16,7 @@ export function LibraryPanel({ gameId }: LibraryPanelProps) {
   return (
     <section
       aria-labelledby="library-panel-title"
-      className="space-y-4 rounded-xl border border-zinc-800 bg-zinc-900/60 p-5"
+      className="retro-panel space-y-4 rounded-xl p-5"
     >
       <div className="flex items-center justify-between gap-3">
         <h2 id="library-panel-title" className="font-semibold">
@@ -37,7 +37,7 @@ export function LibraryPanel({ gameId }: LibraryPanelProps) {
           <LibraryEntryForm key={entry.id} entry={entry} />
           <Link
             to="/library"
-            className="inline-block text-sm text-violet-300 underline-offset-2 hover:underline"
+            className="inline-block text-sm font-bold tracking-wide text-brand-300 uppercase underline-offset-2 hover:underline"
           >
             Ver minha biblioteca
           </Link>

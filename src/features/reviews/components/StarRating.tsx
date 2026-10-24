@@ -24,11 +24,12 @@ function StarPath({ className = '' }: { className?: string }) {
   return (
     <svg
       aria-hidden="true"
-      viewBox="0 0 24 24"
-      className={`size-7 ${className}`}
+      viewBox="0 0 16 16"
+      shapeRendering="crispEdges"
+      className={`size-5 ${className}`}
       fill="currentColor"
     >
-      <path d="M12 2l2.9 6.26 6.8.59-5.15 4.46 1.55 6.64L12 17.27 5.9 20.95l1.55-6.64L2.3 8.85l6.8-.59L12 2z" />
+      <path d="M6 0h4v4h6v4h-4v2h2v6l-6-4-6 4v-6h2V8H0V4h6V0Z" />
     </svg>
   );
 }
@@ -52,29 +53,36 @@ export function StarRating({
   }
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1.5">
       <div className="flex items-center gap-2">
-        <span className="text-sm font-medium text-zinc-300">{label}</span>
-        <span className="text-sm text-zinc-400">
+        <span className="text-xs font-bold tracking-wider text-zinc-300 uppercase">
+          {label}
+        </span>
+        <span className="border border-zinc-700 bg-black/30 px-1.5 py-0.5 text-xs text-zinc-400 tabular-nums">
           {formatStarRating(starValue)} / 5
         </span>
       </div>
       <div
         role={interactive ? 'radiogroup' : undefined}
         aria-label={ariaLabel}
-        className="inline-flex gap-0.5"
+        className="inline-flex gap-1"
       >
         {Array.from({ length: STAR_COUNT }, (_, index) => {
           const starIndex = index + 1;
           const fill = starFill(starValue, starIndex);
 
           return (
-            <span key={starIndex} className="relative inline-block size-7">
+            <span
+              key={starIndex}
+              className={`retro-rating-star relative grid size-8 place-items-center border bg-black/45 shadow-[2px_2px_0_rgba(0,0,0,0.7)] ${
+                fill > 0 ? 'border-amber-500/60' : 'border-zinc-700'
+              }`}
+            >
               <StarPath className="text-zinc-700" />
               {fill > 0 && (
                 <span
                   aria-hidden="true"
-                  className="absolute inset-0 text-amber-400"
+                  className="absolute inset-0 grid place-items-center text-amber-300 drop-shadow-[1px_1px_0_#92400e]"
                   style={
                     fill < 1
                       ? { clipPath: `inset(0 ${(1 - fill) * 100}% 0 0)` }
@@ -93,7 +101,7 @@ export function StarRating({
                     aria-label={`${formatStarRating(starIndex - 0.5)} estrelas`}
                     disabled={disabled}
                     onClick={() => setFromStar(starIndex, true)}
-                    className="absolute inset-y-0 left-0 z-10 w-1/2 cursor-pointer focus-visible:outline-2 focus-visible:outline-violet-500"
+                    className="absolute inset-y-0 left-0 z-10 w-1/2 cursor-pointer focus-visible:outline-2 focus-visible:outline-brand-500"
                   />
                   <button
                     type="button"
@@ -102,7 +110,7 @@ export function StarRating({
                     aria-label={`${formatStarRating(starIndex)} estrelas`}
                     disabled={disabled}
                     onClick={() => setFromStar(starIndex, false)}
-                    className="absolute inset-y-0 right-0 z-10 w-1/2 cursor-pointer focus-visible:outline-2 focus-visible:outline-violet-500"
+                    className="absolute inset-y-0 right-0 z-10 w-1/2 cursor-pointer focus-visible:outline-2 focus-visible:outline-brand-500"
                   />
                 </>
               )}

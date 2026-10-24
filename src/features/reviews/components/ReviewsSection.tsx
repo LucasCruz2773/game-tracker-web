@@ -41,12 +41,14 @@ export function ReviewsSection({ gameId }: ReviewsSectionProps) {
 
   return (
     <section aria-labelledby="reviews-title" className="space-y-6">
-      <h2 id="reviews-title" className="text-xl font-semibold">
+      <h2 id="reviews-title" className="retro-title text-xl font-semibold">
         Avaliações
       </h2>
 
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-5">
-        <h3 className="mb-4 font-medium">Sua avaliação</h3>
+      <div className="retro-panel rounded-xl p-5">
+        <h3 className="mb-4 font-bold tracking-wide uppercase">
+          Sua avaliação
+        </h3>
         {isMinePending ? (
           <Spinner label="Carregando sua avaliação…" />
         ) : isMineError ? (

@@ -51,7 +51,12 @@ export function LibraryPage() {
   return (
     <section className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
-        <h1 className="text-2xl font-semibold">Minha biblioteca</h1>
+        <div>
+          <p className="retro-kicker">Memory card // Save files</p>
+          <h1 className="retro-title mt-1 text-2xl font-semibold">
+            Minha biblioteca
+          </h1>
+        </div>
         <div className="w-56">
           <label htmlFor="library-sort" className="sr-only">
             Ordenar por
@@ -80,9 +85,15 @@ export function LibraryPage() {
         onSelect={(nextStatus) => updateParams({ status: nextStatus })}
       />
 
-      {isPending ? (
-        <div className="flex justify-center py-16">
-          <Spinner label="Carregando biblioteca…" />
+      {isPending || isPlaceholderData ? (
+        <div className="flex min-h-64 items-center justify-center py-16">
+          <Spinner
+            label={
+              isPlaceholderData
+                ? 'Atualizando seus jogos…'
+                : 'Carregando biblioteca…'
+            }
+          />
         </div>
       ) : isError ? (
         <ErrorState
@@ -103,7 +114,7 @@ export function LibraryPage() {
             action={
               <Link
                 to="/"
-                className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium hover:bg-violet-500"
+                className="rounded-lg border border-brand-400 bg-brand-600 px-4 py-2 text-sm font-bold tracking-wide uppercase hover:bg-brand-500"
               >
                 Explorar jogos
               </Link>
@@ -112,10 +123,7 @@ export function LibraryPage() {
         )
       ) : (
         <>
-          <ul
-            aria-busy={isPlaceholderData}
-            className={`space-y-3 ${isPlaceholderData ? 'opacity-60' : ''}`}
-          >
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
             {data.items.map((entry) => (
               <LibraryEntryRow key={entry.id} entry={entry} />
             ))}
@@ -124,7 +132,6 @@ export function LibraryPage() {
             page={data.page}
             pageSize={data.pageSize}
             total={data.total}
-            disabled={isPlaceholderData}
             onPageChange={(nextPage) => updateParams({ page: nextPage })}
           />
         </>
@@ -161,10 +168,10 @@ function StatusFilter({ selected, onSelect }: StatusFilterProps) {
             type="button"
             aria-pressed={isSelected}
             onClick={() => onSelect(option.value)}
-            className={`rounded-full px-4 py-1.5 text-sm transition focus-visible:outline-2 focus-visible:outline-violet-500 ${
+            className={`rounded-lg border px-4 py-1.5 text-xs font-bold tracking-wide uppercase transition focus-visible:outline-2 focus-visible:outline-brand-500 ${
               isSelected
-                ? 'bg-violet-600 text-white'
-                : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800'
+                ? 'border-brand-500 bg-brand-600 text-white shadow-[2px_2px_0_rgba(0,0,0,0.8)]'
+                : 'border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-zinc-500 hover:bg-zinc-800'
             }`}
           >
             {option.label}

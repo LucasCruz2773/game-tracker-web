@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Game Track retro GT logo">
+<defs><pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><rect y="2" width="4" height="1" fill="#080913" opacity=".20"/></pattern></defs>
+<!-- white G: top, left, lower bar with pixel-era extruded edges -->
+<path d="M105 187 L252 105 L348 126 L201 209 Z" fill="#f2eee8"/>
+<path d="M105 187 L201 209 L201 317 L257 287 L303 309 L201 369 L105 319 Z" fill="#d7d3dc"/>
+<path d="M201 209 L348 126 L348 166 L246 223 L246 265 L201 291 Z" fill="#55516d"/>
+<path d="M105 319 L201 369 L201 388 L105 338 Z" fill="#7a718a"/>
+<path d="M201 369 L303 309 L303 328 L201 388 Z" fill="#4a4969"/>
+<!-- red T upper cap, extrusion, and stem -->
+<path d="M233 237 L362 165 L452 193 L322 268 Z" fill="#f01432"/>
+<path d="M233 237 L322 268 L322 293 L233 261 Z" fill="#a60824"/>
+<path d="M322 268 L452 193 L452 219 L360 273 L360 388 L322 409 Z" fill="#ad0928"/>
+<path d="M322 293 L360 273 L360 388 L322 409 Z" fill="#e40a2b"/>
+<path d="M322 409 L360 388 L360 406 L322 427 Z" fill="#8c0922"/>
+<path d="M322 293 L322 409 L297 394 L297 308 Z" fill="#f01936"/>
+<path d="M105 187 L252 105 L348 126 L201 209 L201 317 L257 287 L303 309 L201 369 L105 319 Z M233 237 L362 165 L452 193 L322 268 L322 409 L297 394 L297 308 L233 261 Z" fill="url(#scan)"/>
+</svg>

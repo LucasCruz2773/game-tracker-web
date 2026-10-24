@@ -31,7 +31,7 @@ export function GameDetailsPage() {
           title="Jogo não encontrado"
           description="Ele pode ter sido removido ou o link está incorreto."
           action={
-            <Link to="/" className="text-sm text-violet-300 hover:underline">
+            <Link to="/" className="text-sm text-brand-300 hover:underline">
               Explorar jogos
             </Link>
           }
@@ -61,7 +61,8 @@ function GameDetailsView({ game }: { game: GameDetails }) {
             className="aspect-video w-full rounded-xl"
           />
           <header className="space-y-2">
-            <h1 className="text-3xl font-semibold">{game.title}</h1>
+            <p className="retro-kicker">Game data // Detail view</p>
+            <h1 className="retro-title text-3xl font-semibold">{game.title}</h1>
             {game.releaseDate && (
               <p className="text-sm text-zinc-400">
                 Lançamento: {formatIsoDate(game.releaseDate)}
@@ -102,7 +103,7 @@ function TagList({ label, tags }: { label: string; tags: GameTag[] }) {
         {tags.map((tag) => (
           <li
             key={tag.slug}
-            className="rounded-full bg-zinc-800 px-3 py-1 text-xs text-zinc-200"
+            className="border border-zinc-700 bg-zinc-900 px-3 py-1 font-mono text-[0.68rem] tracking-wide text-zinc-200 uppercase"
           >
             {tag.name}
           </li>

@@ -22,7 +22,7 @@ export function ReviewAuthorHeader({ author }: ReviewAuthorHeaderProps) {
       ) : (
         <span
           aria-hidden="true"
-          className="flex size-9 items-center justify-center rounded-full bg-violet-600 text-sm font-semibold uppercase"
+          className="flex size-9 items-center justify-center rounded-full bg-brand-700 text-sm font-semibold uppercase"
         >
           {name.charAt(0)}
         </span>

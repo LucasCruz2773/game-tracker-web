@@ -9,7 +9,7 @@ interface ReviewCardProps {
 
 export function ReviewCard({ review }: ReviewCardProps) {
   return (
-    <article className="space-y-3 rounded-xl border border-zinc-800 bg-zinc-900/60 p-4">
+    <article className="retro-panel retro-card space-y-3 rounded-xl p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <ReviewAuthorHeader author={review.author} />
         <time dateTime={review.createdAt} className="text-xs text-zinc-500">
