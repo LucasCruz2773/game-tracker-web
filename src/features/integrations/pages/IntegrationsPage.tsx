@@ -10,7 +10,7 @@ import {
 import { Spinner } from '../../../components/Spinner';
 import { LibraryStatusSelect } from '../../library/components/LibraryStatusSelect';
 import type { LibraryStatus } from '../../library/library.types';
-import { RatingSelect } from '../../reviews/components/RatingSelect';
+import { OptionalStarRating } from '../../reviews/components/OptionalStarRating';
 import { STEAM_CONNECT_URL } from '../steam.api';
 import type { SteamLibraryItem } from '../steam.types';
 import {
@@ -361,18 +361,19 @@ function SteamGameRow({
         <p className="text-xs text-zinc-500">Steam AppID {item.appId}</p>
       </div>
       {!imported && (
-        <div className="grid w-40 gap-2">
+        <div className="grid gap-2">
           <LibraryStatusSelect
             value={importStatus}
             onChange={onStatusChange}
             disabled={statusDisabled}
             aria-label={`Status de ${item.name}`}
           />
-          <RatingSelect
+          <OptionalStarRating
             value={importRating}
             onChange={onRatingChange}
             disabled={statusDisabled}
-            aria-label={`Nota de ${item.name}`}
+            label="Nota"
+            ariaLabel={`Nota de ${item.name}`}
           />
         </div>
       )}

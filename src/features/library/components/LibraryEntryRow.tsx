@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { GameCover } from '../../games/components/GameCover';
-import { RatingSelect } from '../../reviews/components/RatingSelect';
+import { OptionalStarRating } from '../../reviews/components/OptionalStarRating';
 import { reviewErrorMessage } from '../../reviews/review-errors';
 import {
   useCreateReview,
@@ -90,11 +90,12 @@ export function LibraryEntryRow({ entry }: LibraryEntryRowProps) {
             {libraryErrorMessage(updateEntry.error)}
           </p>
         )}
-        <RatingSelect
+        <OptionalStarRating
           value={displayedRating}
           onChange={changeRating}
           disabled={ratingPending}
-          aria-label={`Nota de ${game.title}`}
+          label="Nota"
+          ariaLabel={`Nota de ${game.title}`}
         />
         {ratingError && (
           <p role="alert" className="text-xs text-red-300">

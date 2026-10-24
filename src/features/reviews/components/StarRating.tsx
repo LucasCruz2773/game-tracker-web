@@ -10,6 +10,7 @@ interface StarRatingProps {
   onChange?: (rating: number) => void;
   disabled?: boolean;
   label?: string;
+  ariaLabel?: string;
 }
 
 const STAR_COUNT = 5;
@@ -37,6 +38,7 @@ export function StarRating({
   onChange,
   disabled = false,
   label = 'Nota',
+  ariaLabel = label,
 }: StarRatingProps) {
   const starValue = toStarRating(rating);
   const interactive = onChange !== undefined && !disabled;
@@ -59,7 +61,7 @@ export function StarRating({
       </div>
       <div
         role={interactive ? 'radiogroup' : undefined}
-        aria-label={label}
+        aria-label={ariaLabel}
         className="inline-flex gap-0.5"
       >
         {Array.from({ length: STAR_COUNT }, (_, index) => {
