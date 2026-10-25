@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   formatStarRating,
   MAX_REVIEW_RATING,
@@ -41,8 +42,10 @@ export function StarRating({
   label = 'Nota',
   ariaLabel = label,
 }: StarRatingProps) {
-  const starValue = toStarRating(rating);
   const interactive = onChange !== undefined && !disabled;
+  const [previewRating, setPreviewRating] = useState<number | null>(null);
+  const displayedRating = previewRating ?? rating;
+  const starValue = toStarRating(displayedRating);
 
   function setFromStar(starIndex: number, half: boolean) {
     if (!onChange) {
@@ -66,6 +69,7 @@ export function StarRating({
         role={interactive ? 'radiogroup' : undefined}
         aria-label={ariaLabel}
         className="inline-flex gap-1"
+        onMouseLeave={() => setPreviewRating(null)}
       >
         {Array.from({ length: STAR_COUNT }, (_, index) => {
           const starIndex = index + 1;
@@ -100,6 +104,7 @@ export function StarRating({
                     aria-checked={rating === starIndex * 2 - 1}
                     aria-label={`${formatStarRating(starIndex - 0.5)} estrelas`}
                     disabled={disabled}
+                    onMouseEnter={() => setPreviewRating(starIndex * 2 - 1)}
                     onClick={() => setFromStar(starIndex, true)}
                     className="absolute inset-y-0 left-0 z-10 w-1/2 cursor-pointer focus-visible:outline-2 focus-visible:outline-brand-500"
                   />
@@ -109,6 +114,7 @@ export function StarRating({
                     aria-checked={rating === starIndex * 2}
                     aria-label={`${formatStarRating(starIndex)} estrelas`}
                     disabled={disabled}
+                    onMouseEnter={() => setPreviewRating(starIndex * 2)}
                     onClick={() => setFromStar(starIndex, false)}
                     className="absolute inset-y-0 right-0 z-10 w-1/2 cursor-pointer focus-visible:outline-2 focus-visible:outline-brand-500"
                   />

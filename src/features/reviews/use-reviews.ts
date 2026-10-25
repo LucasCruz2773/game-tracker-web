@@ -6,6 +6,8 @@ import {
   type QueryClient,
 } from '@tanstack/react-query';
 import { isApiError } from '../../lib/api-client';
+import type { Paginated } from '../../types/pagination';
+import type { LibraryEntry } from '../library/library.types';
 import { libraryQueryKeys } from '../library/use-library';
 import {
   createReview,
@@ -44,17 +46,43 @@ function refreshReviewQueries(
   queryClient: QueryClient,
   gameId: string,
   review: Review | null,
-) {
+): void {
   queryClient.setQueryData(reviewQueryKeys.mine(gameId), review);
+  const libraryReview = review
+    ? {
+        id: review.id,
+        rating: review.rating,
+        starRating: review.starRating,
+      }
+    : null;
+
+  queryClient.setQueriesData<Paginated<LibraryEntry>>(
+    { queryKey: libraryQueryKeys.lists() },
+    (current) =>
+      current && {
+        ...current,
+        items: current.items.map((entry) =>
+          entry.game.id === gameId
+            ? { ...entry, review: libraryReview }
+            : entry,
+        ),
+      },
+  );
+  queryClient.setQueryData<LibraryEntry | null>(
+    libraryQueryKeys.entry(gameId),
+    (current) => (current ? { ...current, review: libraryReview } : current),
+  );
   void queryClient.invalidateQueries({ queryKey: libraryQueryKeys.all });
-  return queryClient.invalidateQueries({ queryKey: reviewQueryKeys.lists() });
+  void queryClient.invalidateQueries({ queryKey: reviewQueryKeys.lists() });
 }
 
 export function useCreateReview(gameId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: ReviewInput) => createReview(gameId, input),
-    onSuccess: (review) => refreshReviewQueries(queryClient, gameId, review),
+    onSuccess: (review) => {
+      refreshReviewQueries(queryClient, gameId, review);
+    },
     onError: (error) => {
       if (isApiError(error, 409)) {
         void queryClient.invalidateQueries({
@@ -69,7 +97,9 @@ export function useUpdateReview(gameId: string, reviewId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: ReviewInput) => updateReview(reviewId, input),
-    onSuccess: (review) => refreshReviewQueries(queryClient, gameId, review),
+    onSuccess: (review) => {
+      refreshReviewQueries(queryClient, gameId, review);
+    },
   });
 }
 
@@ -77,6 +107,8 @@ export function useDeleteReview(gameId: string, reviewId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => deleteReview(reviewId),
-    onSuccess: () => refreshReviewQueries(queryClient, gameId, null),
+    onSuccess: () => {
+      refreshReviewQueries(queryClient, gameId, null);
+    },
   });
 }

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { GameCover } from '../../games/components/GameCover';
 import { OptionalStarRating } from '../../reviews/components/OptionalStarRating';
@@ -22,6 +23,15 @@ export function LibraryEntryRow({ entry }: LibraryEntryRowProps) {
   const createReview = useCreateReview(game.id);
   const updateReview = useUpdateReview(game.id, entry.review?.id ?? '');
   const deleteReview = useDeleteReview(game.id, entry.review?.id ?? '');
+  const serverRating = entry.review?.rating ?? null;
+  const [optimisticRating, setOptimisticRating] = useState<{
+    base: number | null;
+    value: number | null;
+  } | null>(null);
+  const displayedRating =
+    optimisticRating?.base === serverRating
+      ? optimisticRating.value
+      : serverRating;
   const ratingPending =
     createReview.isPending || updateReview.isPending || deleteReview.isPending;
 
@@ -30,29 +40,34 @@ export function LibraryEntryRow({ entry }: LibraryEntryRowProps) {
   }
 
   function changeRating(rating: number | null) {
+    setOptimisticRating({ base: serverRating, value: rating });
+
+    const finishOptimisticUpdate = () => setOptimisticRating(null);
     if (rating === null) {
-      if (
-        entry.review &&
-        window.confirm(
-          `Remover sua nota e eventual avaliação de ${game.title}?`,
-        )
-      ) {
-        deleteReview.mutate();
+      if (entry.review) {
+        deleteReview.mutate(undefined, {
+          onSuccess: finishOptimisticUpdate,
+          onError: finishOptimisticUpdate,
+        });
       }
     } else if (entry.review) {
-      updateReview.mutate({ rating });
+      updateReview.mutate(
+        { rating },
+        {
+          onSuccess: finishOptimisticUpdate,
+          onError: finishOptimisticUpdate,
+        },
+      );
     } else {
-      createReview.mutate({ rating });
+      createReview.mutate(
+        { rating },
+        {
+          onSuccess: finishOptimisticUpdate,
+          onError: finishOptimisticUpdate,
+        },
+      );
     }
   }
-
-  const displayedRating = createReview.isPending
-    ? createReview.variables.rating
-    : updateReview.isPending
-      ? updateReview.variables.rating
-      : deleteReview.isPending
-        ? null
-        : (entry.review?.rating ?? null);
   const ratingError =
     createReview.error ?? updateReview.error ?? deleteReview.error;
 

@@ -16,24 +16,12 @@ export function OptionalStarRating({
   ariaLabel = label,
 }: OptionalStarRatingProps) {
   return (
-    <div className="space-y-1">
-      <StarRating
-        rating={value ?? 0}
-        onChange={(rating) => onChange(rating)}
-        disabled={disabled}
-        label={label}
-        ariaLabel={ariaLabel}
-      />
-      {value !== null && (
-        <button
-          type="button"
-          disabled={disabled}
-          onClick={() => onChange(null)}
-          className="text-xs text-zinc-700 hover:text-zinc-950 disabled:pointer-events-none disabled:opacity-50"
-        >
-          Remover nota
-        </button>
-      )}
-    </div>
+    <StarRating
+      rating={value ?? 0}
+      onChange={(rating) => onChange(rating === value ? null : rating)}
+      disabled={disabled}
+      label={label}
+      ariaLabel={`${ariaLabel}. Selecione novamente a nota atual para zerar`}
+    />
   );
 }
