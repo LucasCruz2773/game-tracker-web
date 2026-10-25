@@ -4,7 +4,8 @@ interface SpinnerProps {
 
 const LOADING_BLOCKS = 6;
 
-export function Spinner({ label = 'Carregando…' }: SpinnerProps) {
+export function Spinner({ label }: SpinnerProps) {
+  const { t } = useI18n();
   return (
     <span
       role="status"
@@ -25,8 +26,9 @@ export function Spinner({ label = 'Carregando…' }: SpinnerProps) {
         </span>
       </span>
       <span className="retro-loading-label text-xs font-bold tracking-[0.16em] uppercase">
-        {label}
+        {label ?? t('loading')}
       </span>
     </span>
   );
 }
+import { useI18n } from '../i18n/i18n';

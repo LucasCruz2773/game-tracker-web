@@ -5,6 +5,7 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({ title, description, onRetry }: ErrorStateProps) {
+  const { t } = useI18n();
   return (
     <div
       role="alert"
@@ -19,9 +20,10 @@ export function ErrorState({ title, description, onRetry }: ErrorStateProps) {
           onClick={onRetry}
           className="theme-primary-button mt-2 rounded-lg border px-4 py-2 text-sm font-bold tracking-wide uppercase shadow-[3px_3px_0_rgba(70,70,76,0.55)] focus-visible:outline-2"
         >
-          Tentar novamente
+          {t('retry')}
         </button>
       )}
     </div>
   );
 }
+import { useI18n } from '../i18n/i18n';

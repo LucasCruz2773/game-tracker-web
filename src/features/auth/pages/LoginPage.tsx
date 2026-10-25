@@ -1,12 +1,15 @@
 import { Navigate, useSearchParams } from 'react-router';
 import { LoadingScreen } from '../../../components/LoadingScreen';
+import { LanguageSelect } from '../../../components/LanguageSelect';
 import { Logo } from '../../../components/Logo';
 import { ThemeToggle } from '../../../components/ThemeToggle';
+import { useI18n } from '../../../i18n/i18n';
 import { GoogleSignInButton } from '../components/GoogleSignInButton';
 import { signInErrorMessage } from '../sign-in-errors';
 import { useCurrentUser } from '../use-current-user';
 
 export function LoginPage() {
+  const { t } = useI18n();
   const [searchParams] = useSearchParams();
   const { data: currentUser, isPending } = useCurrentUser();
   const errorMessage = signInErrorMessage(searchParams.get('error'));
@@ -21,7 +24,8 @@ export function LoginPage() {
 
   return (
     <main className="retro-grid relative flex min-h-screen items-center justify-center p-6">
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 right-4 flex gap-2">
+        <LanguageSelect />
         <ThemeToggle />
       </div>
       <div className="retro-panel w-full max-w-md space-y-8 p-8 sm:p-10">
@@ -29,12 +33,9 @@ export function LoginPage() {
           <Logo />
           <p className="retro-kicker pt-3">Player database // Online</p>
           <h1 className="retro-title text-2xl font-semibold">
-            Sua biblioteca de jogos
+            {t('loginTitle')}
           </h1>
-          <p className="text-sm text-zinc-700">
-            Organize o que você está jogando, acompanhe seu progresso e avalie o
-            que já terminou.
-          </p>
+          <p className="text-sm text-zinc-700">{t('loginDescription')}</p>
         </div>
 
         {errorMessage && (

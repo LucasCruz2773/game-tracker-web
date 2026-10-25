@@ -3,6 +3,7 @@ import { EmptyState } from '../../../components/EmptyState';
 import { ErrorState } from '../../../components/ErrorState';
 import { Pagination } from '../../../components/Pagination';
 import { Spinner } from '../../../components/Spinner';
+import { useI18n } from '../../../i18n/i18n';
 import { parsePageParam } from '../../../lib/search-params';
 import { catalogErrorDescription } from '../catalog-errors';
 import { GameCard } from '../components/GameCard';
@@ -12,6 +13,7 @@ import { useGameSearch } from '../use-games';
 const PAGE_SIZE = 20;
 
 export function GamesPage() {
+  const { t } = useI18n();
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('q')?.trim() ?? '';
   const page = parsePageParam(searchParams.get('page'));
@@ -33,14 +35,11 @@ export function GamesPage() {
           <div className="relative z-10 flex flex-col justify-center p-6 sm:p-8 lg:p-10">
             <p className="retro-kicker">Game database // Select title</p>
             <h1 className="retro-title mt-3 max-w-xl text-3xl leading-tight font-black sm:text-4xl">
-              {search
-                ? `Resultados para “${search}”`
-                : 'Registre sua jornada nos games'}
+              {search ? t('resultsFor', { search }) : t('journey')}
             </h1>
             {!search && (
               <p className="mt-4 max-w-lg text-base leading-relaxed text-zinc-300">
-                Organize sua biblioteca, acompanhe seu progresso e descubra seu
-                próximo jogo.
+                {t('journeyDescription')}
               </p>
             )}
           </div>
@@ -85,20 +84,17 @@ export function GamesPage() {
       {isPending || isPlaceholderData ? (
         <div className="flex min-h-64 items-center justify-center py-16">
           <Spinner
-            label={isPlaceholderData ? 'Atualizando jogos…' : 'Buscando jogos…'}
+            label={isPlaceholderData ? t('updatingGames') : t('searchingGames')}
           />
         </div>
       ) : isError ? (
         <ErrorState
-          title="Não foi possível carregar os jogos"
+          title={t('gamesLoadError')}
           description={catalogErrorDescription(error)}
           onRetry={() => void refetch()}
         />
       ) : data.items.length === 0 ? (
-        <EmptyState
-          title="Nenhum jogo encontrado"
-          description="Tente buscar por outro nome."
-        />
+        <EmptyState title={t('noGames')} description={t('tryAnotherName')} />
       ) : (
         <>
           <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">

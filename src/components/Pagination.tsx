@@ -16,6 +16,7 @@ export function Pagination({
   onPageChange,
   disabled = false,
 }: PaginationProps) {
+  const { t, locale } = useI18n();
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   if (totalPages <= 1) {
     return null;
@@ -23,7 +24,7 @@ export function Pagination({
 
   return (
     <nav
-      aria-label="Paginação"
+      aria-label={t('pagination')}
       className="flex items-center justify-center gap-4"
     >
       <button
@@ -32,10 +33,10 @@ export function Pagination({
         onClick={() => onPageChange(page - 1)}
         disabled={disabled || page <= 1}
       >
-        Anterior
+        {t('previous')}
       </button>
       <span className="font-mono text-xs font-bold text-zinc-700 uppercase">
-        Página {page} de {totalPages.toLocaleString('pt-BR')}
+        {t('pageOf', { page, total: totalPages.toLocaleString(locale) })}
       </span>
       <button
         type="button"
@@ -43,8 +44,9 @@ export function Pagination({
         onClick={() => onPageChange(page + 1)}
         disabled={disabled || page >= totalPages}
       >
-        Próxima
+        {t('next')}
       </button>
     </nav>
   );
 }
+import { useI18n } from '../i18n/i18n';

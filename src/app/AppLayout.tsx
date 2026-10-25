@@ -7,36 +7,38 @@ import {
 } from 'react-router';
 import { useState } from 'react';
 import { Logo } from '../components/Logo';
+import { LanguageSelect } from '../components/LanguageSelect';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { UserMenu } from '../features/auth/components/UserMenu';
 import { useAuthenticatedUser } from '../features/auth/use-current-user';
+import { useI18n, type TranslationKey } from '../i18n/i18n';
 
 const NAV_ITEMS = [
   {
     to: '/',
-    label: 'Explorar',
-    shortLabel: 'Explorar',
+    label: 'explore',
+    shortLabel: 'explore',
     symbol: '△',
     end: true,
   },
   {
     to: '/feed',
-    label: 'Atividades',
-    shortLabel: 'Feed',
+    label: 'activities',
+    shortLabel: 'activities',
     symbol: '×',
     end: false,
   },
   {
     to: '/players',
-    label: 'Jogadores',
-    shortLabel: 'Jogadores',
+    label: 'players',
+    shortLabel: 'players',
     symbol: '□',
     end: false,
   },
   {
     to: '/profile',
-    label: 'Perfil',
-    shortLabel: 'Perfil',
+    label: 'profile',
+    shortLabel: 'profile',
     symbol: '○',
     end: false,
   },
@@ -60,6 +62,7 @@ function isSidebarInitiallyCollapsed() {
 }
 
 export function AppLayout() {
+  const { t } = useI18n();
   const currentUser = useAuthenticatedUser();
   const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(
@@ -70,7 +73,7 @@ export function AppLayout() {
       item.end
         ? location.pathname === item.to
         : location.pathname.startsWith(item.to),
-    )?.shortLabel ?? 'Detalhes do jogo';
+    )?.shortLabel ?? 'gameDetails';
 
   function toggleSidebar() {
     const nextCollapsed = !sidebarCollapsed;
@@ -109,9 +112,9 @@ export function AppLayout() {
 
         <div className="flex flex-1 flex-col px-5 py-8">
           <p className="mb-3 text-sm tracking-[0.14em] text-zinc-700 uppercase">
-            Menu principal
+            {t('mainMenu')}
           </p>
-          <nav aria-label="Principal" className="space-y-1.5">
+          <nav aria-label={t('mainNav')} className="space-y-1.5">
             {NAV_ITEMS.map((item, index) => (
               <NavLink
                 key={item.to}
@@ -131,7 +134,7 @@ export function AppLayout() {
                 >
                   {item.symbol}
                 </span>
-                {item.label}
+                {t(item.label as TranslationKey)}
               </NavLink>
             ))}
           </nav>
@@ -148,7 +151,7 @@ export function AppLayout() {
                 />
               ))}
             </div>
-            <p className="mt-2 text-xs text-zinc-700">05 / 16 blocos usados</p>
+            <p className="mt-2 text-xs text-zinc-700">{t('blocksUsed')}</p>
           </div>
         </div>
       </aside>
@@ -170,15 +173,9 @@ export function AppLayout() {
                 aria-controls="app-sidebar"
                 aria-expanded={!sidebarCollapsed}
                 aria-label={
-                  sidebarCollapsed
-                    ? 'Mostrar menu lateral'
-                    : 'Guardar menu lateral'
+                  sidebarCollapsed ? t('showSidebar') : t('hideSidebar')
                 }
-                title={
-                  sidebarCollapsed
-                    ? 'Mostrar menu lateral'
-                    : 'Guardar menu lateral'
-                }
+                title={sidebarCollapsed ? t('showSidebar') : t('hideSidebar')}
                 className="theme-toggle pixel-corners inline-flex size-10 items-center justify-center border focus-visible:outline-2"
               >
                 <svg
@@ -199,17 +196,18 @@ export function AppLayout() {
               <div>
                 <p className="retro-kicker">GameTrack OS // Online</p>
                 <p className="mt-0.5 text-lg tracking-wider text-zinc-950 uppercase">
-                  {currentSection}
+                  {t(currentSection as TranslationKey)}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
+              <LanguageSelect />
               <ThemeToggle />
               <UserMenu user={currentUser} />
             </div>
           </div>
           <nav
-            aria-label="Principal para dispositivos móveis"
+            aria-label={t('mobileNav')}
             className="app-mobile-nav flex w-full overflow-x-auto border-t lg:hidden"
           >
             {NAV_ITEMS.map((item, index) => (
@@ -231,7 +229,7 @@ export function AppLayout() {
                 >
                   {item.symbol}
                 </span>
-                {item.shortLabel}
+                {t(item.shortLabel as TranslationKey)}
               </NavLink>
             ))}
           </nav>
@@ -243,7 +241,7 @@ export function AppLayout() {
 
         <footer className="app-footer border-t py-5 text-center text-xs">
           <p className="tracking-wider uppercase">
-            GameTrack // Dados fornecidos por{' '}
+            {t('providedBy')}{' '}
             <a
               href="https://rawg.io"
               target="_blank"

@@ -3,12 +3,11 @@ export type IsoDate = string;
 
 const ISO_DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 
-const longDateFormatter = new Intl.DateTimeFormat('pt-BR', {
-  day: 'numeric',
-  month: 'short',
-  year: 'numeric',
-  timeZone: 'UTC',
-});
+function activeLocale(): string {
+  return typeof document === 'undefined'
+    ? 'pt-BR'
+    : document.documentElement.lang || 'pt-BR';
+}
 
 /** Today in the user's time zone (the API's "today" would be UTC). */
 export function todayIsoDate(now: Date = new Date()): IsoDate {
@@ -25,25 +24,26 @@ export function formatIsoDate(isoDate: IsoDate): string {
   }
   const [, year, month, day] = match;
   // Formatting in UTC keeps the calendar day from shifting with the local time zone.
-  return longDateFormatter.format(
-    new Date(Date.UTC(Number(year), Number(month) - 1, Number(day))),
-  );
+  return new Intl.DateTimeFormat(activeLocale(), {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(Date.UTC(Number(year), Number(month) - 1, Number(day))));
 }
 
 export function isoDateYear(isoDate: IsoDate): string {
   return isoDate.slice(0, 4);
 }
 
-const reviewDateFormatter = new Intl.DateTimeFormat('pt-BR', {
-  day: 'numeric',
-  month: 'short',
-  year: 'numeric',
-});
-
 /** Formats an ISO timestamp from the API in the user's local time zone. */
 export function formatReviewDate(isoTimestamp: string): string {
   const date = new Date(isoTimestamp);
   return Number.isNaN(date.getTime())
     ? isoTimestamp
-    : reviewDateFormatter.format(date);
+    : new Intl.DateTimeFormat(activeLocale(), {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      }).format(date);
 }

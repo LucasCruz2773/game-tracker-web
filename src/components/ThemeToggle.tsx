@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useI18n } from '../i18n/i18n';
 
 type Theme = 'light' | 'dark';
 
@@ -9,6 +10,7 @@ function getCurrentTheme(): Theme {
 }
 
 export function ThemeToggle() {
+  const { t } = useI18n();
   const [theme, setTheme] = useState<Theme>(getCurrentTheme);
   const nextTheme = theme === 'light' ? 'dark' : 'light';
 
@@ -26,8 +28,8 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={changeTheme}
-      aria-label={`Ativar tema ${nextTheme === 'dark' ? 'escuro PS2' : 'claro PS1'}`}
-      title={`Tema atual: ${theme === 'light' ? 'claro PS1' : 'escuro PS2'}`}
+      aria-label={nextTheme === 'dark' ? t('activateDark') : t('activateLight')}
+      title={theme === 'light' ? t('currentLight') : t('currentDark')}
       className="theme-toggle pixel-corners inline-flex items-center gap-2 border px-3 py-2 text-xs font-bold tracking-wider uppercase focus-visible:outline-2"
     >
       <span aria-hidden="true" className="text-base leading-none">
