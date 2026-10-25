@@ -13,6 +13,7 @@ Frontend do **GameTrack**, uma aplicação responsiva para descobrir jogos, orga
 ## Funcionalidades
 
 - Login seguro com Google.
+- Busca de jogadores com opção de seguir e deixar de seguir.
 - Conexão da conta Steam e importação em lotes com status e nota por jogo.
 - Sincronização manual das horas registradas pela Steam.
 - Busca, paginação e visualização de detalhes de jogos.
@@ -60,6 +61,7 @@ Em desenvolvimento, o Vite encaminha `/api` para `http://localhost:3000`. Em pro
 | `/games/:gameId` | Detalhes, biblioteca e reviews    |
 | `/library`       | Biblioteca com filtros por status |
 | `/dashboard`     | Estatísticas da biblioteca        |
+| `/players`       | Busca e conexão com jogadores     |
 | `/integrations`  | Importação e sincronização Steam  |
 
 Rotas privadas usam `RequireAuth`; a sessão é consultada em `GET /api/auth/me`.
@@ -101,7 +103,8 @@ src/
 │   ├── games/
 │   ├── integrations/
 │   ├── library/
-│   └── reviews/
+│   ├── reviews/
+│   └── social/
 ├── lib/             # cliente HTTP, datas e query client
 ├── pages/           # páginas de erro e rota inexistente
 └── types/
@@ -160,7 +163,7 @@ O frontend não recebe credenciais do banco, Google ou RAWG. Esses segredos exis
 
 - Perfil público.
 - Listas personalizadas.
-- Importação da biblioteca Steam.
-- Recursos sociais e recomendações.
+- Feed de atividades e notificações sociais.
+- Recomendações personalizadas.
 
 Funcionalidades de infraestrutura serão adicionadas somente quando houver uma necessidade concreta.

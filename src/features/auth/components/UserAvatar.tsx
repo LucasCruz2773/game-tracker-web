@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { CurrentUser } from '../auth.types';
 
 interface UserAvatarProps {
-  user: CurrentUser;
+  user: Pick<CurrentUser, 'avatarUrl' | 'displayName' | 'username'>;
 }
 
 export function UserAvatar({ user }: UserAvatarProps) {

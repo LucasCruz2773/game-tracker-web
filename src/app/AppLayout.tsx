@@ -40,6 +40,13 @@ const NAV_ITEMS = [
     symbol: '×',
     end: false,
   },
+  {
+    to: '/players',
+    label: 'Jogadores',
+    shortLabel: 'Jogadores',
+    symbol: '◇',
+    end: false,
+  },
 ];
 
 const SYMBOL_CLASSES = [
@@ -47,6 +54,7 @@ const SYMBOL_CLASSES = [
   'text-fuchsia-400',
   'text-brand-400',
   'text-blue-400',
+  'text-cyan-400',
 ];
 
 const SIDEBAR_STORAGE_KEY = 'gametrack-sidebar-collapsed';
