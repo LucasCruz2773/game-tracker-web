@@ -13,10 +13,7 @@ export function UserMenu({ user }: UserMenuProps) {
     <div className="flex items-center gap-3">
       <UserAvatar user={user} />
       <div className="hidden text-right leading-tight sm:block">
-        <p className="text-sm font-medium">
-          {user.displayName ?? user.username}
-        </p>
-        <p className="text-xs text-zinc-700">@{user.username}</p>
+        <p className="text-sm font-medium">@{user.username}</p>
       </div>
       <button
         type="button"

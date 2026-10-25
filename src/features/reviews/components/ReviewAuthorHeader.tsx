@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router';
 import type { ReviewAuthor } from '../reviews.types';
 
 interface ReviewAuthorHeaderProps {
@@ -7,10 +8,13 @@ interface ReviewAuthorHeaderProps {
 
 export function ReviewAuthorHeader({ author }: ReviewAuthorHeaderProps) {
   const [imageFailed, setImageFailed] = useState(false);
-  const name = author.displayName ?? author.username;
 
   return (
-    <div className="flex items-center gap-3">
+    <Link
+      to={`/players/${encodeURIComponent(author.username)}`}
+      className="flex items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-brand-500"
+      aria-label={`Abrir perfil de ${author.username}`}
+    >
       {author.avatarUrl && !imageFailed ? (
         <img
           src={author.avatarUrl}
@@ -24,13 +28,12 @@ export function ReviewAuthorHeader({ author }: ReviewAuthorHeaderProps) {
           aria-hidden="true"
           className="theme-avatar flex size-9 items-center justify-center rounded-full border text-sm font-semibold uppercase"
         >
-          {name.charAt(0)}
+          {author.username.charAt(0)}
         </span>
       )}
       <div className="min-w-0 leading-tight">
-        <p className="truncate font-medium">{name}</p>
-        <p className="text-xs text-zinc-700">@{author.username}</p>
+        <p className="truncate font-medium">@{author.username}</p>
       </div>
-    </div>
+    </Link>
   );
 }

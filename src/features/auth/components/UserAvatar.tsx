@@ -2,13 +2,12 @@ import { useState } from 'react';
 import type { CurrentUser } from '../auth.types';
 
 interface UserAvatarProps {
-  user: Pick<CurrentUser, 'avatarUrl' | 'displayName' | 'username'>;
+  user: Pick<CurrentUser, 'avatarUrl' | 'username'>;
   size?: 'small' | 'large';
 }
 
 export function UserAvatar({ user, size = 'small' }: UserAvatarProps) {
   const [imageFailed, setImageFailed] = useState(false);
-  const name = user.displayName ?? user.username;
   const sizeClasses = size === 'large' ? 'size-24 text-3xl' : 'size-8 text-sm';
 
   if (user.avatarUrl && !imageFailed) {
@@ -29,7 +28,7 @@ export function UserAvatar({ user, size = 'small' }: UserAvatarProps) {
       aria-hidden="true"
       className={`theme-avatar flex items-center justify-center rounded-full border font-semibold uppercase ${sizeClasses}`}
     >
-      {name.charAt(0)}
+      {user.username.charAt(0)}
     </span>
   );
 }

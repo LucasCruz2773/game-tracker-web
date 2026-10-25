@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router';
 import { UserAvatar } from '../../auth/components/UserAvatar';
 import { useAuthenticatedUser } from '../../auth/use-current-user';
+import { useSocialSummary } from '../../social/use-social';
 
 const PROFILE_TABS = [
   { to: '/profile', label: 'Perfil', end: true },
@@ -17,6 +18,7 @@ const memberSinceFormatter = new Intl.DateTimeFormat('pt-BR', {
 
 export function ProfileLayout() {
   const user = useAuthenticatedUser();
+  const socialSummary = useSocialSummary();
   const createdAt = new Date(user.createdAt);
   const memberSince = Number.isNaN(createdAt.getTime())
     ? user.createdAt
@@ -30,9 +32,20 @@ export function ProfileLayout() {
           <div className="min-w-0 flex-1">
             <p className="retro-kicker">Player profile // Memory file</p>
             <h1 className="retro-title mt-1 truncate text-2xl font-bold sm:text-3xl">
-              {user.displayName ?? user.username}
+              @{user.username}
             </h1>
-            <p className="mt-1 text-sm text-zinc-700">@{user.username}</p>
+            <nav aria-label="Conexões sociais" className="mt-4 flex gap-2">
+              <SocialCounter
+                to="/profile/followers"
+                count={socialSummary.data?.followerCount}
+                label="Seguidores"
+              />
+              <SocialCounter
+                to="/profile/following"
+                count={socialSummary.data?.followingCount}
+                label="Seguindo"
+              />
+            </nav>
           </div>
           <dl className="grid shrink-0 gap-3 text-sm sm:text-right">
             <div>
@@ -75,5 +88,33 @@ export function ProfileLayout() {
 
       <Outlet />
     </section>
+  );
+}
+
+interface SocialCounterProps {
+  to: string;
+  count: number | undefined;
+  label: string;
+}
+
+function SocialCounter({ to, count, label }: SocialCounterProps) {
+  return (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `min-w-24 rounded-lg border px-3 py-2 text-center transition focus-visible:outline-2 ${
+          isActive
+            ? 'theme-nav-active border-current'
+            : 'console-secondary-button'
+        }`
+      }
+    >
+      <strong className="block text-base leading-none tabular-nums">
+        {count === undefined ? '…' : count.toLocaleString('pt-BR')}
+      </strong>
+      <span className="mt-1 block text-[0.6rem] tracking-wider uppercase">
+        {label}
+      </span>
+    </NavLink>
   );
 }

@@ -14,6 +14,23 @@ export interface SocialUserListParams {
   pageSize: number;
 }
 
+export type SocialConnectionKind = 'followers' | 'following';
+
+export interface SocialSummary {
+  followerCount: number;
+  followingCount: number;
+}
+
+export interface PublicProfile {
+  id: string;
+  username: string;
+  avatarUrl: string | null;
+  followerCount: number;
+  followingCount: number;
+  isFollowing: boolean;
+  createdAt: string;
+}
+
 export interface FollowStatus {
   username: string;
   isFollowing: boolean;

@@ -14,12 +14,10 @@ import {
 export function ProfileSettingsPage() {
   const user = useAuthenticatedUser();
   const updateProfile = useUpdateCurrentProfile();
-  const [displayName, setDisplayName] = useState(user.displayName ?? '');
   const [username, setUsername] = useState(user.username);
   const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl ?? '');
 
   const previewUser = {
-    displayName: displayName.trim() || null,
     username: username.trim() || user.username,
     avatarUrl: avatarUrl.trim() || null,
   };
@@ -27,7 +25,6 @@ export function ProfileSettingsPage() {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     updateProfile.mutate({
-      displayName: displayName.trim() || null,
       username: username.trim().toLowerCase(),
       avatarUrl: avatarUrl.trim() || null,
     });
@@ -45,25 +42,6 @@ export function ProfileSettingsPage() {
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-          <div>
-            <label htmlFor="profile-display-name" className="text-sm font-bold">
-              Nome
-            </label>
-            <input
-              id="profile-display-name"
-              value={displayName}
-              onChange={(event) => setDisplayName(event.target.value)}
-              minLength={2}
-              maxLength={50}
-              autoComplete="name"
-              placeholder="Seu nome de exibição"
-              className={`mt-1.5 ${inputClasses}`}
-            />
-            <p className="mt-1 text-xs text-zinc-700">
-              Pode ficar vazio; nesse caso, seu nick será exibido.
-            </p>
-          </div>
-
           <div>
             <label htmlFor="profile-username" className="text-sm font-bold">
               Nick
@@ -151,9 +129,6 @@ export function ProfileSettingsPage() {
           />
         </div>
         <p className="mt-4 truncate text-lg font-bold">
-          {previewUser.displayName ?? previewUser.username}
-        </p>
-        <p className="truncate text-sm text-zinc-700">
           @{previewUser.username}
         </p>
         <div className="memory-card-caption mt-5 flex justify-between border px-2 py-1 text-[0.6rem] tracking-[0.15em] uppercase">

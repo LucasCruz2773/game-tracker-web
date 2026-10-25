@@ -6,14 +6,37 @@ import {
   type QueryKey,
 } from '@tanstack/react-query';
 import type { Paginated } from '../../types/pagination';
-import { fetchSocialUsers, followUser, unfollowUser } from './social.api';
-import type { SocialUser, SocialUserListParams } from './social.types';
+import type { LibraryListParams } from '../library/library.types';
+import {
+  fetchPublicLibrary,
+  fetchPublicProfile,
+  fetchPublicSummary,
+  fetchSocialConnections,
+  fetchSocialSummary,
+  fetchSocialUsers,
+  followUser,
+  unfollowUser,
+} from './social.api';
+import type {
+  SocialConnectionKind,
+  SocialUser,
+  SocialUserListParams,
+} from './social.types';
 
 export const socialQueryKeys = {
   all: ['social'] as const,
-  lists: () => [...socialQueryKeys.all, 'users'] as const,
+  lists: () => [...socialQueryKeys.all, 'lists'] as const,
   list: (params: SocialUserListParams) =>
-    [...socialQueryKeys.lists(), params] as const,
+    [...socialQueryKeys.lists(), 'users', params] as const,
+  connections: (kind: SocialConnectionKind, params: SocialUserListParams) =>
+    [...socialQueryKeys.lists(), 'connections', kind, params] as const,
+  summary: () => [...socialQueryKeys.all, 'summary'] as const,
+  profile: (username: string) =>
+    [...socialQueryKeys.all, 'profile', username] as const,
+  publicLibrary: (username: string, params: LibraryListParams) =>
+    [...socialQueryKeys.all, 'profile', username, 'library', params] as const,
+  publicSummary: (username: string) =>
+    [...socialQueryKeys.all, 'profile', username, 'summary'] as const,
 };
 
 export function useSocialUsers(params: SocialUserListParams) {
@@ -21,6 +44,47 @@ export function useSocialUsers(params: SocialUserListParams) {
     queryKey: socialQueryKeys.list(params),
     queryFn: ({ signal }) => fetchSocialUsers(params, signal),
     placeholderData: keepPreviousData,
+  });
+}
+
+export function useSocialSummary() {
+  return useQuery({
+    queryKey: socialQueryKeys.summary(),
+    queryFn: ({ signal }) => fetchSocialSummary(signal),
+  });
+}
+
+export function useSocialConnections(
+  kind: SocialConnectionKind,
+  params: SocialUserListParams,
+) {
+  return useQuery({
+    queryKey: socialQueryKeys.connections(kind, params),
+    queryFn: ({ signal }) => fetchSocialConnections(kind, params, signal),
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function usePublicProfile(username: string) {
+  return useQuery({
+    queryKey: socialQueryKeys.profile(username),
+    queryFn: ({ signal }) => fetchPublicProfile(username, signal),
+  });
+}
+
+export function usePublicLibrary(username: string, params: LibraryListParams) {
+  return useQuery({
+    queryKey: socialQueryKeys.publicLibrary(username, params),
+    queryFn: ({ signal }) => fetchPublicLibrary(username, params, signal),
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function usePublicSummary(username: string) {
+  return useQuery({
+    queryKey: socialQueryKeys.publicSummary(username),
+    queryFn: ({ signal }) => fetchPublicSummary(username, signal),
+    staleTime: 60_000,
   });
 }
 
@@ -78,6 +142,6 @@ export function useToggleFollow() {
       }
     },
     onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: socialQueryKeys.lists() }),
+      queryClient.invalidateQueries({ queryKey: socialQueryKeys.all }),
   });
 }

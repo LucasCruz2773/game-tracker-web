@@ -13,8 +13,8 @@ Frontend do **GameTrack**, uma aplicação responsiva para descobrir jogos, orga
 ## Funcionalidades
 
 - Login seguro com Google.
-- Edição do nome, nick e foto do perfil.
-- Busca de jogadores com opção de seguir e deixar de seguir.
+- Edição do nick e foto do perfil.
+- Perfis públicos com biblioteca, resumo, contadores e listas de seguidores/seguindo, além de seguir e deixar de seguir.
 - Conexão da conta Steam e importação em lotes com status e nota por jogo.
 - Sincronização manual das horas registradas pela Steam.
 - Busca, paginação e visualização de detalhes de jogos.
@@ -55,17 +55,22 @@ Em desenvolvimento, o Vite encaminha `/api` para `http://localhost:3000`. Em pro
 
 ## Rotas
 
-| Rota                    | Página                            |
-| ----------------------- | --------------------------------- |
-| `/login`                | Login com Google                  |
-| `/`                     | Busca e jogos populares           |
-| `/games/:gameId`        | Detalhes, biblioteca e reviews    |
-| `/players`              | Busca e conexão com jogadores     |
-| `/profile`              | Perfil e central do jogador       |
-| `/profile/edit`         | Personalização do perfil          |
-| `/profile/library`      | Biblioteca com filtros por status |
-| `/profile/summary`      | Estatísticas da biblioteca        |
-| `/profile/integrations` | Importação e sincronização Steam  |
+| Rota                         | Página                            |
+| ---------------------------- | --------------------------------- |
+| `/login`                     | Login com Google                  |
+| `/`                          | Busca e jogos populares           |
+| `/games/:gameId`             | Detalhes, biblioteca e reviews    |
+| `/players`                   | Busca e conexão com jogadores     |
+| `/players/:username`         | Perfil público de outro jogador   |
+| `/players/:username/library` | Biblioteca pública do jogador     |
+| `/players/:username/summary` | Resumo público do jogador         |
+| `/profile`                   | Perfil e central do jogador       |
+| `/profile/edit`              | Personalização do perfil          |
+| `/profile/followers`         | Lista de seguidores               |
+| `/profile/following`         | Lista de jogadores seguidos       |
+| `/profile/library`           | Biblioteca com filtros por status |
+| `/profile/summary`           | Estatísticas da biblioteca        |
+| `/profile/integrations`      | Importação e sincronização Steam  |
 
 Rotas privadas usam `RequireAuth`; a sessão é consultada em `GET /api/auth/me`.
 

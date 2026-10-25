@@ -8,7 +8,6 @@ export interface CurrentUser {
 }
 
 export interface UserProfileChanges {
-  displayName: string | null;
   username: string;
   avatarUrl: string | null;
 }
