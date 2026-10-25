@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-query';
 import { isApiError } from '../../lib/api-client';
 import type { Paginated } from '../../types/pagination';
+import { gameQueryKeys } from '../games/use-games';
 import type { LibraryEntry } from '../library/library.types';
 import { libraryQueryKeys } from '../library/use-library';
 import {
@@ -74,6 +75,9 @@ function refreshReviewQueries(
   );
   void queryClient.invalidateQueries({ queryKey: libraryQueryKeys.all });
   void queryClient.invalidateQueries({ queryKey: reviewQueryKeys.lists() });
+  void queryClient.invalidateQueries({
+    queryKey: gameQueryKeys.details(gameId),
+  });
 }
 
 export function useCreateReview(gameId: string) {

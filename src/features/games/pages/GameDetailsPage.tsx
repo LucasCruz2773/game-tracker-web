@@ -6,6 +6,7 @@ import { isApiError } from '../../../lib/api-client';
 import { formatIsoDate } from '../../../lib/dates';
 import { LibraryPanel } from '../../library/components/LibraryPanel';
 import { ReviewsSection } from '../../reviews/components/ReviewsSection';
+import { StarRating } from '../../reviews/components/StarRating';
 import { catalogErrorDescription } from '../catalog-errors';
 import { GameCover } from '../components/GameCover';
 import type { GameDetails, GameTag } from '../games.types';
@@ -67,6 +68,22 @@ function GameDetailsView({ game }: { game: GameDetails }) {
               <p className="text-sm text-zinc-700">
                 Lançamento: {formatIsoDate(game.releaseDate)}
               </p>
+            )}
+            {game.averageRating === null ? (
+              <p className="text-sm text-zinc-700">Ainda sem avaliações.</p>
+            ) : (
+              <div className="pt-2">
+                <StarRating
+                  rating={game.averageRating}
+                  label="Nota"
+                  ariaLabel={`Nota de ${game.averageStarRating} estrelas em ${game.reviewCount} avaliações`}
+                />
+                <p className="mt-1 text-xs text-zinc-700">
+                  {game.reviewCount}{' '}
+                  {game.reviewCount === 1 ? 'avaliação' : 'avaliações'} da
+                  comunidade
+                </p>
+              </div>
             )}
           </header>
 

@@ -66,7 +66,7 @@ export function PublicSummaryPage() {
           hint="Soma de toda a biblioteca"
         />
         <StatCard
-          label="Nota média"
+          label="Nota"
           value={averageStars}
           hint="Das avaliações deste jogador"
         />

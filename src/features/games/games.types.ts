@@ -17,6 +17,9 @@ export interface GameSummary {
 
 export interface GameDetails extends GameSummary {
   description: string | null;
+  averageRating: number | null;
+  averageStarRating: number | null;
+  reviewCount: number;
 }
 
 export interface GameSearchParams {
