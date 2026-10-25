@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router';
+import { ActivityFeedPage } from '../features/activities/pages/ActivityFeedPage';
 import { LoginPage } from '../features/auth/pages/LoginPage';
 import { RequireAuth } from '../features/auth/components/RequireAuth';
 import { GameDetailsPage } from '../features/games/pages/GameDetailsPage';
@@ -31,6 +32,7 @@ export const router = createBrowserRouter([
             element: <AppLayout />,
             children: [
               { index: true, element: <GamesPage /> },
+              { path: 'feed', element: <ActivityFeedPage /> },
               { path: 'games/:gameId', element: <GameDetailsPage /> },
               { path: 'players', element: <PlayersPage /> },
               {

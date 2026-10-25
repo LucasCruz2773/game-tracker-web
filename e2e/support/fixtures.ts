@@ -9,9 +9,13 @@ interface CreatedSession {
   token: string;
 }
 
+export interface SignedInTestUser extends CreatedSession {
+  username: string;
+}
+
 interface E2eFixtures {
   /** Signs a brand-new user in, standing in for the Google redirect flow. */
-  signIn: (displayName: string) => Promise<void>;
+  signIn: (displayName: string) => Promise<SignedInTestUser>;
 }
 
 export const test = base.extend<E2eFixtures>({
@@ -35,6 +39,8 @@ export const test = base.extend<E2eFixtures>({
           sameSite: 'Lax',
         },
       ]);
+
+      return { ...session, username };
     });
   },
 });

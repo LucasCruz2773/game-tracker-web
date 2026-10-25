@@ -9,7 +9,12 @@ export const LIBRARY_STATUSES = [
 ] as const;
 export type LibraryStatus = (typeof LIBRARY_STATUSES)[number];
 
-export const LIBRARY_SORT_FIELDS = ['updatedAt', 'createdAt', 'title'] as const;
+export const LIBRARY_SORT_FIELDS = [
+  'updatedAt',
+  'createdAt',
+  'title',
+  'rating',
+] as const;
 export type LibrarySortField = (typeof LIBRARY_SORT_FIELDS)[number];
 
 export const MAX_HOURS_PLAYED = 100_000;

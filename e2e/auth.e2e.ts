@@ -20,9 +20,9 @@ test('explains why a Google sign-in failed', async ({ page }) => {
 });
 
 test('signs out and protects the app again', async ({ page, signIn }) => {
-  await signIn('Ana Souza');
+  const user = await signIn('Ana Souza');
   await page.goto('/');
-  await expect(page.getByText('Ana Souza')).toBeVisible();
+  await expect(page.getByText(`@${user.username}`)).toBeVisible();
 
   await page.getByRole('button', { name: 'Sair' }).click();
 

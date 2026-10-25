@@ -18,4 +18,5 @@ export const LIBRARY_SORT_LABELS: Record<LibrarySortField, string> = {
   updatedAt: 'Atualizados recentemente',
   createdAt: 'Adicionados recentemente',
   title: 'Título (A–Z)',
+  rating: 'Maior nota',
 };

@@ -9,7 +9,7 @@ test('finds a game, adds it to the library and tracks its progress', async ({
   // Search the catalog and open the game.
   await page.goto('/');
   await expect(
-    page.getByRole('heading', { name: 'Jogos populares' }),
+    page.getByRole('heading', { name: 'Registre sua jornada nos games' }),
   ).toBeVisible();
   await page.getByRole('searchbox', { name: 'Buscar jogos' }).fill('hollow');
   await page.getByRole('button', { name: 'Buscar' }).click();
@@ -43,10 +43,8 @@ test('finds a game, adds it to the library and tracks its progress', async ({
   await expect(panel.getByText('Alterações salvas.')).toBeVisible();
 
   // The library lists it, and the status can be changed from there.
-  await page
-    .getByRole('link', { name: 'Minha biblioteca', exact: true })
-    .click();
-  await expect(page).toHaveURL('/library');
+  await page.goto('/profile/library');
+  await expect(page).toHaveURL('/profile/library');
   const entry = page.getByRole('listitem').filter({ hasText: 'Hollow Knight' });
   await expect(entry).toContainText('12 h jogadas');
 
@@ -56,7 +54,7 @@ test('finds a game, adds it to the library and tracks its progress', async ({
   await expect(entry).toContainText('12 h jogadas');
 
   await page.getByRole('button', { name: 'Concluído' }).click();
-  await expect(page).toHaveURL('/library?status=COMPLETED');
+  await expect(page).toHaveURL('/profile/library?status=COMPLETED');
   await expect(entry).toBeVisible();
 
   await page.getByRole('button', { name: 'Jogando' }).click();

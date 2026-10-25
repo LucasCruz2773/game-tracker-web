@@ -52,6 +52,7 @@ export function StarRating({
       return;
     }
     const next = half ? starIndex * 2 - 1 : starIndex * 2;
+    setPreviewRating(null);
     onChange(Math.min(MAX_REVIEW_RATING, Math.max(MIN_REVIEW_RATING, next)));
   }
 

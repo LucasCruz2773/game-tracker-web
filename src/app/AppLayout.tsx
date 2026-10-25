@@ -20,6 +20,13 @@ const NAV_ITEMS = [
     end: true,
   },
   {
+    to: '/feed',
+    label: 'Atividades',
+    shortLabel: 'Feed',
+    symbol: '×',
+    end: false,
+  },
+  {
     to: '/players',
     label: 'Jogadores',
     shortLabel: 'Jogadores',
@@ -37,6 +44,7 @@ const NAV_ITEMS = [
 
 const SYMBOL_CLASSES = [
   'text-emerald-400',
+  'text-sky-400',
   'text-fuchsia-400',
   'text-brand-400',
 ];

@@ -16,12 +16,12 @@ test('shows library stats after tracking a few games', async ({
   await rating.getByRole('radio', { name: '4 estrelas', exact: true }).click();
   await page.getByRole('button', { name: 'Publicar avaliação' }).click();
 
-  await page.getByRole('link', { name: 'Resumo', exact: true }).click();
-  await expect(page).toHaveURL('/dashboard');
+  await page.goto('/profile/summary');
+  await expect(page).toHaveURL('/profile/summary');
 
   await expect(page.getByText('Total de jogos')).toBeVisible();
   await expect(page.getByText('1', { exact: true }).first()).toBeVisible();
-  await expect(page.getByText('Jogando')).toBeVisible();
+  await expect(page.getByText('Jogando', { exact: true })).toBeVisible();
   await expect(page.getByText('4 / 5')).toBeVisible();
 });
 
