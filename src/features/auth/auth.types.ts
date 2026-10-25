@@ -7,6 +7,12 @@ export interface CurrentUser {
   createdAt: string;
 }
 
+export interface UserProfileChanges {
+  displayName: string | null;
+  username: string;
+  avatarUrl: string | null;
+}
+
 export type GoogleSignInErrorReason =
   | 'cancelled'
   | 'invalid_state'

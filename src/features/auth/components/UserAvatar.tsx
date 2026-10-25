@@ -3,11 +3,13 @@ import type { CurrentUser } from '../auth.types';
 
 interface UserAvatarProps {
   user: Pick<CurrentUser, 'avatarUrl' | 'displayName' | 'username'>;
+  size?: 'small' | 'large';
 }
 
-export function UserAvatar({ user }: UserAvatarProps) {
+export function UserAvatar({ user, size = 'small' }: UserAvatarProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const name = user.displayName ?? user.username;
+  const sizeClasses = size === 'large' ? 'size-24 text-3xl' : 'size-8 text-sm';
 
   if (user.avatarUrl && !imageFailed) {
     return (
@@ -17,7 +19,7 @@ export function UserAvatar({ user }: UserAvatarProps) {
         // Google's avatar CDN may reject requests that carry a Referer.
         referrerPolicy="no-referrer"
         onError={() => setImageFailed(true)}
-        className="size-8 rounded-full bg-zinc-800 object-cover"
+        className={`${sizeClasses} rounded-full bg-zinc-800 object-cover`}
       />
     );
   }
@@ -25,7 +27,7 @@ export function UserAvatar({ user }: UserAvatarProps) {
   return (
     <span
       aria-hidden="true"
-      className="theme-avatar flex size-8 items-center justify-center rounded-full border text-sm font-semibold uppercase"
+      className={`theme-avatar flex items-center justify-center rounded-full border font-semibold uppercase ${sizeClasses}`}
     >
       {name.charAt(0)}
     </span>

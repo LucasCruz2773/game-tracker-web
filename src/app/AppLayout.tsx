@@ -20,31 +20,17 @@ const NAV_ITEMS = [
     end: true,
   },
   {
-    to: '/library',
-    label: 'Minha biblioteca',
-    shortLabel: 'Biblioteca',
+    to: '/players',
+    label: 'Jogadores',
+    shortLabel: 'Jogadores',
     symbol: '□',
     end: false,
   },
   {
-    to: '/dashboard',
-    label: 'Resumo',
-    shortLabel: 'Resumo',
+    to: '/profile',
+    label: 'Perfil',
+    shortLabel: 'Perfil',
     symbol: '○',
-    end: false,
-  },
-  {
-    to: '/integrations',
-    label: 'Integrações',
-    shortLabel: 'Conexões',
-    symbol: '×',
-    end: false,
-  },
-  {
-    to: '/players',
-    label: 'Jogadores',
-    shortLabel: 'Jogadores',
-    symbol: '◇',
     end: false,
   },
 ];
@@ -53,8 +39,6 @@ const SYMBOL_CLASSES = [
   'text-emerald-400',
   'text-fuchsia-400',
   'text-brand-400',
-  'text-blue-400',
-  'text-cyan-400',
 ];
 
 const SIDEBAR_STORAGE_KEY = 'gametrack-sidebar-collapsed';

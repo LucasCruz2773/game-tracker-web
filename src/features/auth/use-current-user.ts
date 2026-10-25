@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { fetchCurrentUser } from './auth.api';
-import type { CurrentUser } from './auth.types';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { fetchCurrentUser, updateCurrentProfile } from './auth.api';
+import type { CurrentUser, UserProfileChanges } from './auth.types';
 
 export const currentUserQueryKey = ['auth', 'me'] as const;
 
@@ -20,4 +20,16 @@ export function useAuthenticatedUser(): CurrentUser {
     throw new Error('useAuthenticatedUser must be used under <RequireAuth>');
   }
   return currentUser;
+}
+
+export function useUpdateCurrentProfile() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (changes: UserProfileChanges) => updateCurrentProfile(changes),
+    onSuccess: (user) => {
+      queryClient.setQueryData(currentUserQueryKey, user);
+      return queryClient.invalidateQueries({ queryKey: ['reviews'] });
+    },
+  });
 }

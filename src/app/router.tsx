@@ -7,9 +7,13 @@ import { DashboardPage } from '../features/dashboard/pages/DashboardPage';
 import { LibraryPage } from '../features/library/pages/LibraryPage';
 import { IntegrationsPage } from '../features/integrations/pages/IntegrationsPage';
 import { PlayersPage } from '../features/social/pages/PlayersPage';
+import { ProfileLayout } from '../features/profile/pages/ProfileLayout';
+import { ProfileOverviewPage } from '../features/profile/pages/ProfileOverviewPage';
+import { ProfileSettingsPage } from '../features/profile/pages/ProfileSettingsPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { RouteErrorPage } from '../pages/RouteErrorPage';
 import { AppLayout } from './AppLayout';
+import { LegacyProfileRedirect } from './LegacyProfileRedirect';
 
 export const router = createBrowserRouter([
   {
@@ -24,10 +28,30 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <GamesPage /> },
               { path: 'games/:gameId', element: <GameDetailsPage /> },
-              { path: 'library', element: <LibraryPage /> },
-              { path: 'dashboard', element: <DashboardPage /> },
               { path: 'players', element: <PlayersPage /> },
-              { path: 'integrations', element: <IntegrationsPage /> },
+              {
+                path: 'profile',
+                element: <ProfileLayout />,
+                children: [
+                  { index: true, element: <ProfileOverviewPage /> },
+                  { path: 'edit', element: <ProfileSettingsPage /> },
+                  { path: 'library', element: <LibraryPage /> },
+                  { path: 'summary', element: <DashboardPage /> },
+                  { path: 'integrations', element: <IntegrationsPage /> },
+                ],
+              },
+              {
+                path: 'library',
+                element: <LegacyProfileRedirect to="/profile/library" />,
+              },
+              {
+                path: 'dashboard',
+                element: <LegacyProfileRedirect to="/profile/summary" />,
+              },
+              {
+                path: 'integrations',
+                element: <LegacyProfileRedirect to="/profile/integrations" />,
+              },
             ],
           },
         ],

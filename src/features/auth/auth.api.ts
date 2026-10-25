@@ -1,5 +1,5 @@
 import { apiRequest, apiUrl, isApiError } from '../../lib/api-client';
-import type { CurrentUser } from './auth.types';
+import type { CurrentUser, UserProfileChanges } from './auth.types';
 
 // A full-page navigation, not a fetch: the API redirects to Google and back.
 export const GOOGLE_SIGN_IN_URL = apiUrl('/auth/google');
@@ -19,4 +19,10 @@ export async function fetchCurrentUser(
 
 export function logout(): Promise<void> {
   return apiRequest<void>('/auth/logout', { method: 'POST' });
+}
+
+export function updateCurrentProfile(
+  changes: UserProfileChanges,
+): Promise<CurrentUser> {
+  return apiRequest('/auth/me', { method: 'PATCH', body: changes });
 }

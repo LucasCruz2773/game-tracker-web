@@ -36,7 +36,7 @@ export function LibraryPanel({ gameId }: LibraryPanelProps) {
         <>
           <LibraryEntryForm key={entry.id} entry={entry} />
           <Link
-            to="/library"
+            to="/profile/library"
             className="inline-block text-sm font-bold tracking-wide text-brand-300 uppercase underline-offset-2 hover:underline"
           >
             Ver minha biblioteca

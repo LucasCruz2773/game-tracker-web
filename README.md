@@ -13,6 +13,7 @@ Frontend do **GameTrack**, uma aplicação responsiva para descobrir jogos, orga
 ## Funcionalidades
 
 - Login seguro com Google.
+- Edição do nome, nick e foto do perfil.
 - Busca de jogadores com opção de seguir e deixar de seguir.
 - Conexão da conta Steam e importação em lotes com status e nota por jogo.
 - Sincronização manual das horas registradas pela Steam.
@@ -54,15 +55,17 @@ Em desenvolvimento, o Vite encaminha `/api` para `http://localhost:3000`. Em pro
 
 ## Rotas
 
-| Rota             | Página                            |
-| ---------------- | --------------------------------- |
-| `/login`         | Login com Google                  |
-| `/`              | Busca e jogos populares           |
-| `/games/:gameId` | Detalhes, biblioteca e reviews    |
-| `/library`       | Biblioteca com filtros por status |
-| `/dashboard`     | Estatísticas da biblioteca        |
-| `/players`       | Busca e conexão com jogadores     |
-| `/integrations`  | Importação e sincronização Steam  |
+| Rota                    | Página                            |
+| ----------------------- | --------------------------------- |
+| `/login`                | Login com Google                  |
+| `/`                     | Busca e jogos populares           |
+| `/games/:gameId`        | Detalhes, biblioteca e reviews    |
+| `/players`              | Busca e conexão com jogadores     |
+| `/profile`              | Perfil e central do jogador       |
+| `/profile/edit`         | Personalização do perfil          |
+| `/profile/library`      | Biblioteca com filtros por status |
+| `/profile/summary`      | Estatísticas da biblioteca        |
+| `/profile/integrations` | Importação e sincronização Steam  |
 
 Rotas privadas usam `RequireAuth`; a sessão é consultada em `GET /api/auth/me`.
 
@@ -103,6 +106,7 @@ src/
 │   ├── games/
 │   ├── integrations/
 │   ├── library/
+│   ├── profile/
 │   ├── reviews/
 │   └── social/
 ├── lib/             # cliente HTTP, datas e query client
