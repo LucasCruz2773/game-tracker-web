@@ -1,9 +1,11 @@
 import type { LibraryEntry } from '../library/library.types';
+import { apiUrl } from '../../lib/api-client';
 
 const STORY_WIDTH = 1080;
 const STORY_HEIGHT = 1920;
 
 export interface StoryCardData {
+  gameId: string;
   title: string;
   coverUrl: string | null;
   rating: number;
@@ -23,6 +25,7 @@ export function storyCardDataFromEntry(
   }
 
   return {
+    gameId: entry.game.id,
     title: entry.game.title,
     coverUrl: entry.game.coverUrl,
     rating: entry.review.rating,
@@ -57,7 +60,9 @@ export async function createStoryCard(data: StoryCardData): Promise<Blob> {
   }
 
   drawBackground(context);
-  const cover = data.coverUrl ? await loadImage(data.coverUrl) : null;
+  const cover = data.coverUrl
+    ? await loadImage(apiUrl(`/games/${encodeURIComponent(data.gameId)}/cover`))
+    : null;
   if (cover) {
     drawCover(context, cover);
   } else {

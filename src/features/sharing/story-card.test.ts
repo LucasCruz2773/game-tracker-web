@@ -29,6 +29,7 @@ const entry = {
 describe('storyCardDataFromEntry', () => {
   it('creates story data for a completed and rated game', () => {
     expect(storyCardDataFromEntry(entry, 'maddy')).toEqual({
+      gameId: 'game',
       title: 'Celeste',
       coverUrl: 'https://example.com/cover.jpg',
       rating: 9,
