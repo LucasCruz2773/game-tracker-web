@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import type { CurrentUser } from '../auth.types';
 import { useLogout } from '../use-logout';
 import { UserAvatar } from './UserAvatar';
@@ -13,7 +14,12 @@ export function UserMenu({ user }: UserMenuProps) {
     <div className="flex items-center gap-3">
       <UserAvatar user={user} />
       <div className="hidden text-right leading-tight sm:block">
-        <p className="text-sm font-medium">@{user.username}</p>
+        <Link
+          to="/profile"
+          className="rounded-sm text-sm font-medium hover:text-brand-500 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+        >
+          @{user.username}
+        </Link>
       </div>
       <button
         type="button"

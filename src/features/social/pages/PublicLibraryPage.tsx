@@ -15,6 +15,7 @@ import {
   type LibrarySortField,
   type LibraryStatus,
 } from '../../library/library.types';
+import { LibrarySearchForm } from '../../library/components/LibrarySearchForm';
 import { PublicLibraryCard } from '../components/PublicLibraryCard';
 import { usePublicLibrary } from '../use-social';
 
@@ -24,12 +25,14 @@ const DEFAULT_SORT: LibrarySortField = 'updatedAt';
 export function PublicLibraryPage() {
   const { username = '' } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get('q')?.trim() ?? '';
   const status = parseEnumParam(searchParams.get('status'), LIBRARY_STATUSES);
   const sortBy =
     parseEnumParam(searchParams.get('sort'), LIBRARY_SORT_FIELDS) ??
     DEFAULT_SORT;
   const page = parsePageParam(searchParams.get('page'));
   const library = usePublicLibrary(username, {
+    search: search || undefined,
     status,
     sortBy,
     page,
@@ -37,12 +40,14 @@ export function PublicLibraryPage() {
   });
 
   function updateParams(changes: {
+    search?: string;
     status?: LibraryStatus | undefined;
     sortBy?: LibrarySortField;
     page?: number;
   }) {
-    const next = { status, sortBy, page: 1, ...changes };
+    const next = { search, status, sortBy, page: 1, ...changes };
     const params = new URLSearchParams();
+    if (next.search) params.set('q', next.search);
     if (next.status) params.set('status', next.status);
     if (next.sortBy !== DEFAULT_SORT) params.set('sort', next.sortBy);
     if (next.page > 1) params.set('page', String(next.page));
@@ -81,6 +86,13 @@ export function PublicLibraryPage() {
         </div>
       </header>
 
+      <LibrarySearchForm
+        key={search}
+        initialSearch={search}
+        owner={username}
+        onSearch={(nextSearch) => updateParams({ search: nextSearch })}
+      />
+
       <StatusFilter
         selected={status}
         onSelect={(nextStatus) => updateParams({ status: nextStatus })}
@@ -99,14 +111,18 @@ export function PublicLibraryPage() {
       ) : library.data.items.length === 0 ? (
         <EmptyState
           title={
-            status
-              ? `Nenhum jogo em “${LIBRARY_STATUS_LABELS[status]}”`
-              : 'Esta biblioteca está vazia'
+            search
+              ? `Nenhum jogo encontrado para “${search}”`
+              : status
+                ? `Nenhum jogo em “${LIBRARY_STATUS_LABELS[status]}”`
+                : 'Esta biblioteca está vazia'
           }
           description={
-            status
-              ? 'Este jogador não possui jogos com o status selecionado.'
-              : 'Este jogador ainda não adicionou jogos à biblioteca.'
+            search
+              ? 'Tente buscar por outro título ou limpe a pesquisa.'
+              : status
+                ? 'Este jogador não possui jogos com o status selecionado.'
+                : 'Este jogador ainda não adicionou jogos à biblioteca.'
           }
         />
       ) : (

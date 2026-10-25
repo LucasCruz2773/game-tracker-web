@@ -6,6 +6,7 @@ import { Pagination } from '../../../components/Pagination';
 import { Spinner } from '../../../components/Spinner';
 import { parseEnumParam, parsePageParam } from '../../../lib/search-params';
 import { LibraryEntryRow } from '../components/LibraryEntryRow';
+import { LibrarySearchForm } from '../components/LibrarySearchForm';
 import { LIBRARY_SORT_LABELS, LIBRARY_STATUS_LABELS } from '../library-labels';
 import {
   LIBRARY_SORT_FIELDS,
@@ -20,6 +21,7 @@ const DEFAULT_SORT: LibrarySortField = 'updatedAt';
 
 export function LibraryPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get('q')?.trim() ?? '';
   const status = parseEnumParam(searchParams.get('status'), LIBRARY_STATUSES);
   const sortBy =
     parseEnumParam(searchParams.get('sort'), LIBRARY_SORT_FIELDS) ??
@@ -27,6 +29,7 @@ export function LibraryPage() {
   const page = parsePageParam(searchParams.get('page'));
 
   const { data, isPending, isError, isPlaceholderData, refetch } = useLibrary({
+    search: search || undefined,
     status,
     sortBy,
     page,
@@ -34,12 +37,14 @@ export function LibraryPage() {
   });
 
   function updateParams(changes: {
+    search?: string;
     status?: LibraryStatus | undefined;
     sortBy?: LibrarySortField;
     page?: number;
   }) {
-    const next = { status, sortBy, page: 1, ...changes };
+    const next = { search, status, sortBy, page: 1, ...changes };
     const nextParams = new URLSearchParams();
+    if (next.search) nextParams.set('q', next.search);
     if (next.status) nextParams.set('status', next.status);
     if (next.sortBy && next.sortBy !== DEFAULT_SORT) {
       nextParams.set('sort', next.sortBy);
@@ -80,6 +85,12 @@ export function LibraryPage() {
         </div>
       </header>
 
+      <LibrarySearchForm
+        key={search}
+        initialSearch={search}
+        onSearch={(nextSearch) => updateParams({ search: nextSearch })}
+      />
+
       <StatusFilter
         selected={status}
         onSelect={(nextStatus) => updateParams({ status: nextStatus })}
@@ -102,7 +113,12 @@ export function LibraryPage() {
           onRetry={() => void refetch()}
         />
       ) : data.items.length === 0 ? (
-        status ? (
+        search ? (
+          <EmptyState
+            title={`Nenhum jogo encontrado para “${search}”`}
+            description="Tente buscar por outro título ou limpe a pesquisa."
+          />
+        ) : status ? (
           <EmptyState
             title={`Nenhum jogo em “${LIBRARY_STATUS_LABELS[status]}”`}
             description="Mude o status de um jogo para vê-lo aqui."

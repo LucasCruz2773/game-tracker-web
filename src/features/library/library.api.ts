@@ -8,7 +8,7 @@ import type {
 } from './library.types';
 
 export function fetchLibrary(
-  { status, sortBy, page, pageSize }: LibraryListParams,
+  { search, status, sortBy, page, pageSize }: LibraryListParams,
   signal?: AbortSignal,
 ): Promise<Paginated<LibraryEntry>> {
   const query = new URLSearchParams({
@@ -16,6 +16,9 @@ export function fetchLibrary(
     page: String(page),
     pageSize: String(pageSize),
   });
+  if (search) {
+    query.set('search', search);
+  }
   if (status) {
     query.set('status', status);
   }

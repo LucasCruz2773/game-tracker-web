@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { ErrorState } from '../../../components/ErrorState';
 import { Spinner } from '../../../components/Spinner';
+import { ShareStoryButton } from '../../sharing/components/ShareStoryButton';
 import { useLibraryEntry } from '../use-library';
 import { AddToLibraryForm } from './AddToLibraryForm';
 import { LibraryEntryForm } from './LibraryEntryForm';
@@ -35,6 +36,7 @@ export function LibraryPanel({ gameId }: LibraryPanelProps) {
       ) : entry ? (
         <>
           <LibraryEntryForm key={entry.id} entry={entry} />
+          <ShareStoryButton entry={entry} />
           <Link
             to="/profile/library"
             className="inline-block text-sm font-bold tracking-wide text-brand-300 uppercase underline-offset-2 hover:underline"

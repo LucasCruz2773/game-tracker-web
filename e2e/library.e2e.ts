@@ -48,6 +48,26 @@ test('finds a game, adds it to the library and tracks its progress', async ({
   const entry = page.getByRole('listitem').filter({ hasText: 'Hollow Knight' });
   await expect(entry).toContainText('12 h jogadas');
 
+  const librarySearch = page.getByRole('searchbox', {
+    name: 'Buscar jogos na minha biblioteca',
+  });
+  await librarySearch.fill('Hollow');
+  await librarySearch.press('Enter');
+  await expect(page).toHaveURL('/profile/library?q=Hollow');
+  await expect(entry).toBeVisible();
+
+  await librarySearch.fill('Celeste');
+  await librarySearch.press('Enter');
+  await expect(
+    page.getByRole('heading', {
+      name: 'Nenhum jogo encontrado para “Celeste”',
+    }),
+  ).toBeVisible();
+
+  await librarySearch.fill('');
+  await librarySearch.press('Enter');
+  await expect(page).toHaveURL('/profile/library');
+
   await entry
     .getByLabel('Status de Hollow Knight')
     .selectOption({ label: 'Concluído' });

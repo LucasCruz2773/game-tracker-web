@@ -52,7 +52,7 @@ export function fetchPublicProfile(
 
 export function fetchPublicLibrary(
   username: string,
-  { status, sortBy, page, pageSize }: LibraryListParams,
+  { search, status, sortBy, page, pageSize }: LibraryListParams,
   signal?: AbortSignal,
 ): Promise<Paginated<LibraryEntry>> {
   const query = new URLSearchParams({
@@ -60,6 +60,7 @@ export function fetchPublicLibrary(
     page: String(page),
     pageSize: String(pageSize),
   });
+  if (search) query.set('search', search);
   if (status) query.set('status', status);
 
   return apiRequest(`/users/${encodeURIComponent(username)}/library?${query}`, {

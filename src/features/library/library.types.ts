@@ -52,6 +52,7 @@ export interface AddToLibraryInput extends LibraryEntryChanges {
 }
 
 export interface LibraryListParams {
+  search?: string;
   status?: LibraryStatus;
   sortBy: LibrarySortField;
   page: number;

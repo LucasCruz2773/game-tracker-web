@@ -67,10 +67,28 @@ test('opens another player profile and browses their library and summary', async
     }),
   ).toBeVisible();
 
+  const publicLibrarySearch = page.getByRole('searchbox', {
+    name: `Buscar jogos na biblioteca de @${target.username}`,
+  });
+  await publicLibrarySearch.fill('Celeste');
+  await publicLibrarySearch.press('Enter');
+  await expect(page).toHaveURL(`/players/${target.username}/library?q=Celeste`);
+
   const gameCard = page.getByRole('listitem').filter({ hasText: 'Celeste' });
   await expect(gameCard).toContainText('18 h jogadas');
   await expect(gameCard).toContainText('Concluído');
   await expect(gameCard).toContainText('4 / 5');
+
+  await publicLibrarySearch.fill('Hades');
+  await publicLibrarySearch.press('Enter');
+  await expect(
+    page.getByRole('heading', {
+      name: 'Nenhum jogo encontrado para “Hades”',
+    }),
+  ).toBeVisible();
+
+  await publicLibrarySearch.fill('');
+  await publicLibrarySearch.press('Enter');
 
   await page.getByRole('link', { name: 'Resumo', exact: true }).click();
   await expect(page).toHaveURL(`/players/${target.username}/summary`);
