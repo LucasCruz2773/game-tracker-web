@@ -17,6 +17,7 @@ import { ProfileOverviewPage } from '../features/profile/pages/ProfileOverviewPa
 import { ProfileSettingsPage } from '../features/profile/pages/ProfileSettingsPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { RouteErrorPage } from '../pages/RouteErrorPage';
+import { ContactPage } from '../pages/ContactPage';
 import { AppLayout } from './AppLayout';
 import { LegacyProfileRedirect } from './LegacyProfileRedirect';
 
@@ -35,6 +36,7 @@ export const router = createBrowserRouter([
               { path: 'feed', element: <ActivityFeedPage /> },
               { path: 'games/:gameId', element: <GameDetailsPage /> },
               { path: 'players', element: <PlayersPage /> },
+              { path: 'contact', element: <ContactPage /> },
               {
                 path: 'players/:username',
                 element: <PublicProfileLayout />,

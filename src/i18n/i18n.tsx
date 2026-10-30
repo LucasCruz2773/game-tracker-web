@@ -17,6 +17,19 @@ const messages = {
     activities: 'Atividades',
     players: 'Jogadores',
     profile: 'Perfil',
+    contact: 'Entre em contato',
+    contactTitle: 'Olá, eu sou Lucas Cruz',
+    contactIntroduction:
+      'Sou desenvolvedor full-stack com mais de quatro anos de experiência criando produtos web de alta performance. Gosto de transformar ideias complexas em experiências simples, unindo arquitetura limpa, dados úteis e atenção ao design.',
+    contactLearning:
+      'Atualmente também estou expandindo meus conhecimentos em ciência de dados e machine learning, sempre aprendendo, prototipando e entregando novos projetos.',
+    portfolioTitle: 'Conheça meu trabalho',
+    portfolioDescription:
+      'Veja meus projetos selecionados, experiências e as tecnologias que uso para construir produtos digitais.',
+    visitPortfolio: 'Visitar portfólio',
+    letsTalk: 'Vamos conversar',
+    contactInvitation:
+      'Tem um projeto, uma oportunidade ou quer trocar uma ideia? Entre em contato comigo por um dos canais abaixo.',
     gameDetails: 'Detalhes do jogo',
     mainMenu: 'Menu principal',
     mainNav: 'Principal',
@@ -89,6 +102,19 @@ const messages = {
     activities: 'Activity',
     players: 'Players',
     profile: 'Profile',
+    contact: 'Contact',
+    contactTitle: "Hi, I'm Lucas Cruz",
+    contactIntroduction:
+      'I am a full-stack developer with over four years of experience building high-performance web products. I turn complex ideas into simple experiences by combining clean architecture, useful data, and strong visual thinking.',
+    contactLearning:
+      'I am currently expanding into data science and machine learning, always learning, prototyping, and shipping new projects.',
+    portfolioTitle: 'Explore my work',
+    portfolioDescription:
+      'See my selected projects, experiments, and the technologies I use to build digital products.',
+    visitPortfolio: 'Visit portfolio',
+    letsTalk: "Let's talk",
+    contactInvitation:
+      'Have a project, an opportunity, or simply want to connect? Reach me through one of the channels below.',
     gameDetails: 'Game details',
     mainMenu: 'Main menu',
     mainNav: 'Main',
@@ -161,6 +187,19 @@ const messages = {
     activities: 'Actividad',
     players: 'Jugadores',
     profile: 'Perfil',
+    contact: 'Contacto',
+    contactTitle: 'Hola, soy Lucas Cruz',
+    contactIntroduction:
+      'Soy desarrollador full-stack con más de cuatro años de experiencia creando productos web de alto rendimiento. Transformo ideas complejas en experiencias simples combinando arquitectura limpia, datos útiles y atención al diseño.',
+    contactLearning:
+      'Actualmente también estoy ampliando mis conocimientos en ciencia de datos y machine learning, siempre aprendiendo, creando prototipos y publicando nuevos proyectos.',
+    portfolioTitle: 'Conoce mi trabajo',
+    portfolioDescription:
+      'Descubre mis proyectos seleccionados, experimentos y las tecnologías que utilizo para crear productos digitales.',
+    visitPortfolio: 'Visitar portafolio',
+    letsTalk: 'Hablemos',
+    contactInvitation:
+      '¿Tienes un proyecto, una oportunidad o simplemente quieres conversar? Contáctame por uno de los canales disponibles.',
     gameDetails: 'Detalles del juego',
     mainMenu: 'Menú principal',
     mainNav: 'Principal',

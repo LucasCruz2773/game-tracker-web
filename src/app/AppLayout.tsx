@@ -42,6 +42,13 @@ const NAV_ITEMS = [
     symbol: '○',
     end: false,
   },
+  {
+    to: '/contact',
+    label: 'contact',
+    shortLabel: 'contact',
+    symbol: '+',
+    end: false,
+  },
 ];
 
 const SYMBOL_CLASSES = [
@@ -49,6 +56,7 @@ const SYMBOL_CLASSES = [
   'text-sky-400',
   'text-fuchsia-400',
   'text-brand-400',
+  'text-amber-400',
 ];
 
 const SIDEBAR_STORAGE_KEY = 'gametrack-sidebar-collapsed';
