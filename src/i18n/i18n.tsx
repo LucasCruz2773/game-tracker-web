@@ -30,6 +30,17 @@ const messages = {
     letsTalk: 'Vamos conversar',
     contactInvitation:
       'Tem um projeto, uma oportunidade ou quer trocar uma ideia? Entre em contato comigo por um dos canais abaixo.',
+    supportProject: 'Apoie o GameTrack',
+    supportDescription:
+      'Se o projeto foi útil para você, considere fazer uma contribuição voluntária para apoiar sua evolução e manutenção.',
+    freeAmount: 'Você escolhe o valor da contribuição.',
+    pixCopyPaste: 'Código Pix Copia e Cola',
+    copyPix: 'Copiar Pix',
+    pixCopied: 'Copiado!',
+    pixCopiedConfirmation: 'Código Pix copiado para a área de transferência.',
+    pixInstructions:
+      'Escaneie o QR Code ou copie o código e abra a opção Pix no aplicativo do seu banco.',
+    pixQrCodeAlt: 'QR Code Pix para apoiar o GameTrack',
     gameDetails: 'Detalhes do jogo',
     mainMenu: 'Menu principal',
     mainNav: 'Principal',
@@ -115,6 +126,17 @@ const messages = {
     letsTalk: "Let's talk",
     contactInvitation:
       'Have a project, an opportunity, or simply want to connect? Reach me through one of the channels below.',
+    supportProject: 'Support GameTrack',
+    supportDescription:
+      'If this project has been useful to you, consider making a voluntary contribution to support its development and maintenance.',
+    freeAmount: 'You choose the contribution amount.',
+    pixCopyPaste: 'Pix copy-and-paste code',
+    copyPix: 'Copy Pix',
+    pixCopied: 'Copied!',
+    pixCopiedConfirmation: 'Pix code copied to the clipboard.',
+    pixInstructions:
+      "Scan the QR Code or copy the code and open Pix in your bank's app.",
+    pixQrCodeAlt: 'Pix QR Code to support GameTrack',
     gameDetails: 'Game details',
     mainMenu: 'Main menu',
     mainNav: 'Main',
@@ -200,6 +222,17 @@ const messages = {
     letsTalk: 'Hablemos',
     contactInvitation:
       '¿Tienes un proyecto, una oportunidad o simplemente quieres conversar? Contáctame por uno de los canales disponibles.',
+    supportProject: 'Apoya GameTrack',
+    supportDescription:
+      'Si este proyecto te ha resultado útil, considera hacer una contribución voluntaria para apoyar su desarrollo y mantenimiento.',
+    freeAmount: 'Tú eliges el importe de la contribución.',
+    pixCopyPaste: 'Código Pix Copia y Pega',
+    copyPix: 'Copiar Pix',
+    pixCopied: '¡Copiado!',
+    pixCopiedConfirmation: 'Código Pix copiado al portapapeles.',
+    pixInstructions:
+      'Escanea el código QR o copia el código y abre Pix en la aplicación de tu banco.',
+    pixQrCodeAlt: 'Código QR Pix para apoyar GameTrack',
     gameDetails: 'Detalles del juego',
     mainMenu: 'Menú principal',
     mainNav: 'Principal',

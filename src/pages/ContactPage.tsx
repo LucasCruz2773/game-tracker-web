@@ -1,4 +1,5 @@
 import { useI18n } from '../i18n/i18n';
+import { PixDonationCard } from '../features/donations/components/PixDonationCard';
 
 const PORTFOLIO_URL = 'https://portifolio-rosy-sigma-62.vercel.app/';
 
@@ -93,6 +94,8 @@ export function ContactPage() {
           </div>
         </article>
       </div>
+
+      <PixDonationCard />
     </section>
   );
 }
