@@ -44,6 +44,14 @@ const messages = {
     sortAverageRating: 'Nota média',
     sortName: 'Nome',
     sortReleaseDate: 'Data de lançamento',
+    genre: 'Gênero',
+    allGenres: 'Todos os gêneros',
+    ascending: 'Crescente',
+    descending: 'Decrescente',
+    sortAscending: 'Ordenado do menor para o maior',
+    sortDescending: 'Ordenado do maior para o menor',
+    relevanceDirectionUnavailable:
+      'O RAWG não oferece direção inversa para relevância',
     journey: 'Registre sua jornada nos games',
     journeyDescription:
       'Organize sua biblioteca, acompanhe seu progresso e descubra seu próximo jogo.',
@@ -108,6 +116,14 @@ const messages = {
     sortAverageRating: 'Average rating',
     sortName: 'Name',
     sortReleaseDate: 'Release date',
+    genre: 'Genre',
+    allGenres: 'All genres',
+    ascending: 'Ascending',
+    descending: 'Descending',
+    sortAscending: 'Sorted from lowest to highest',
+    sortDescending: 'Sorted from highest to lowest',
+    relevanceDirectionUnavailable:
+      'RAWG does not provide reverse relevance ordering',
     journey: 'Track your gaming journey',
     journeyDescription:
       'Organize your library, track your progress, and discover your next game.',
@@ -172,6 +188,14 @@ const messages = {
     sortAverageRating: 'Nota media',
     sortName: 'Nombre',
     sortReleaseDate: 'Fecha de lanzamiento',
+    genre: 'Género',
+    allGenres: 'Todos los géneros',
+    ascending: 'Ascendente',
+    descending: 'Descendente',
+    sortAscending: 'Ordenado de menor a mayor',
+    sortDescending: 'Ordenado de mayor a menor',
+    relevanceDirectionUnavailable:
+      'RAWG no ofrece orden inverso por relevancia',
     journey: 'Registra tu recorrido en los videojuegos',
     journeyDescription:
       'Organiza tu biblioteca, sigue tu progreso y descubre tu próximo juego.',

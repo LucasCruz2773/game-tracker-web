@@ -7,9 +7,19 @@ import { useI18n } from '../../../i18n/i18n';
 import { parsePageParam } from '../../../lib/search-params';
 import { catalogErrorDescription } from '../catalog-errors';
 import { GameCard } from '../components/GameCard';
+import { GameGenreSelect } from '../components/GameGenreSelect';
 import { GameOrderingSelect } from '../components/GameOrderingSelect';
 import { GameSearchForm } from '../components/GameSearchForm';
-import { parseGameOrdering, type GameOrdering } from '../games.types';
+import { GameSortDirectionButton } from '../components/GameSortDirectionButton';
+import {
+  defaultGameSortDirection,
+  parseGameGenre,
+  parseGameOrdering,
+  parseGameSortDirection,
+  type GameGenre,
+  type GameOrdering,
+  type GameSortDirection,
+} from '../games.types';
 import { useGameSearch } from '../use-games';
 
 const PAGE_SIZE = 20;
@@ -19,12 +29,19 @@ export function GamesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('q')?.trim() ?? '';
   const ordering = parseGameOrdering(searchParams.get('ordering'));
+  const direction = parseGameSortDirection(
+    searchParams.get('direction'),
+    ordering,
+  );
+  const genre = parseGameGenre(searchParams.get('genre'));
   const page = parsePageParam(searchParams.get('page'));
 
   const { data, error, isPending, isError, isPlaceholderData, refetch } =
     useGameSearch({
       search: search || undefined,
       ordering,
+      direction,
+      genre,
       page,
       pageSize: PAGE_SIZE,
     });
@@ -33,11 +50,17 @@ export function GamesPage() {
     nextSearch: string,
     nextPage: number,
     nextOrdering: GameOrdering = ordering,
+    nextGenre: GameGenre | undefined = genre,
+    nextDirection: GameSortDirection = direction,
   ) {
     const nextParams = new URLSearchParams();
     if (nextSearch) nextParams.set('q', nextSearch);
     if (nextOrdering !== 'relevance') {
       nextParams.set('ordering', nextOrdering);
+    }
+    if (nextGenre) nextParams.set('genre', nextGenre);
+    if (nextDirection !== defaultGameSortDirection(nextOrdering)) {
+      nextParams.set('direction', nextDirection);
     }
     if (nextPage > 1) nextParams.set('page', String(nextPage));
     setSearchParams(nextParams);
@@ -93,10 +116,31 @@ export function GamesPage() {
             initialSearch={search}
             onSearch={(nextSearch) => updateParams(nextSearch, 1)}
           />
-          <div className="mt-3 flex justify-end">
+          <div className="mt-3 flex flex-col justify-end gap-3 sm:flex-row">
+            <GameGenreSelect
+              value={genre}
+              onChange={(nextGenre) =>
+                updateParams(search, 1, ordering, nextGenre)
+              }
+            />
             <GameOrderingSelect
               value={ordering}
-              onChange={(nextOrdering) => updateParams(search, 1, nextOrdering)}
+              onChange={(nextOrdering) =>
+                updateParams(
+                  search,
+                  1,
+                  nextOrdering,
+                  genre,
+                  defaultGameSortDirection(nextOrdering),
+                )
+              }
+            />
+            <GameSortDirectionButton
+              ordering={ordering}
+              direction={direction}
+              onChange={(nextDirection) =>
+                updateParams(search, 1, ordering, genre, nextDirection)
+              }
             />
           </div>
         </div>
