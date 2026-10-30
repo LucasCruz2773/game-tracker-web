@@ -50,7 +50,7 @@ export function GamesPage() {
     nextSearch: string,
     nextPage: number,
     nextOrdering: GameOrdering = ordering,
-    nextGenre: GameGenre | undefined = genre,
+    nextGenre: GameGenre | null | undefined = genre,
     nextDirection: GameSortDirection = direction,
   ) {
     const nextParams = new URLSearchParams();
@@ -120,7 +120,7 @@ export function GamesPage() {
             <GameGenreSelect
               value={genre}
               onChange={(nextGenre) =>
-                updateParams(search, 1, ordering, nextGenre)
+                updateParams(search, 1, ordering, nextGenre ?? null)
               }
             />
             <GameOrderingSelect
