@@ -7,7 +7,9 @@ import { useI18n } from '../../../i18n/i18n';
 import { parsePageParam } from '../../../lib/search-params';
 import { catalogErrorDescription } from '../catalog-errors';
 import { GameCard } from '../components/GameCard';
+import { GameOrderingSelect } from '../components/GameOrderingSelect';
 import { GameSearchForm } from '../components/GameSearchForm';
+import { parseGameOrdering, type GameOrdering } from '../games.types';
 import { useGameSearch } from '../use-games';
 
 const PAGE_SIZE = 20;
@@ -16,14 +18,27 @@ export function GamesPage() {
   const { t } = useI18n();
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('q')?.trim() ?? '';
+  const ordering = parseGameOrdering(searchParams.get('ordering'));
   const page = parsePageParam(searchParams.get('page'));
 
   const { data, error, isPending, isError, isPlaceholderData, refetch } =
-    useGameSearch({ search: search || undefined, page, pageSize: PAGE_SIZE });
+    useGameSearch({
+      search: search || undefined,
+      ordering,
+      page,
+      pageSize: PAGE_SIZE,
+    });
 
-  function updateParams(nextSearch: string, nextPage: number) {
+  function updateParams(
+    nextSearch: string,
+    nextPage: number,
+    nextOrdering: GameOrdering = ordering,
+  ) {
     const nextParams = new URLSearchParams();
     if (nextSearch) nextParams.set('q', nextSearch);
+    if (nextOrdering !== 'relevance') {
+      nextParams.set('ordering', nextOrdering);
+    }
     if (nextPage > 1) nextParams.set('page', String(nextPage));
     setSearchParams(nextParams);
   }
@@ -78,6 +93,12 @@ export function GamesPage() {
             initialSearch={search}
             onSearch={(nextSearch) => updateParams(nextSearch, 1)}
           />
+          <div className="mt-3 flex justify-end">
+            <GameOrderingSelect
+              value={ordering}
+              onChange={(nextOrdering) => updateParams(search, 1, nextOrdering)}
+            />
+          </div>
         </div>
       </header>
 

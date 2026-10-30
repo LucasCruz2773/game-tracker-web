@@ -103,7 +103,11 @@ export function LibraryEntryForm({ entry }: LibraryEntryFormProps) {
         )}
 
         <div className="ml-auto flex items-center gap-2">
-          {confirmingRemoval ? (
+          {entry.review ? (
+            <span className="max-w-56 text-right text-xs text-zinc-700">
+              Exclua sua avaliação para remover este jogo da biblioteca.
+            </span>
+          ) : confirmingRemoval ? (
             <>
               <span className="text-sm text-zinc-700">
                 Remover da biblioteca?

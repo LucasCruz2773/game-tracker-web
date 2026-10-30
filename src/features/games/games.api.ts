@@ -3,7 +3,7 @@ import type { Paginated } from '../../types/pagination';
 import type { GameDetails, GameSearchParams, GameSummary } from './games.types';
 
 export function searchGames(
-  { search, page, pageSize }: GameSearchParams,
+  { search, ordering, page, pageSize }: GameSearchParams,
   signal?: AbortSignal,
 ): Promise<Paginated<GameSummary>> {
   const query = new URLSearchParams({
@@ -12,6 +12,11 @@ export function searchGames(
   });
   if (search) {
     query.set('search', search);
+  }
+  // Relevance is RAWG's default. Omitting it also keeps the default catalog
+  // compatible while an API deployment is rolling from the previous version.
+  if (ordering !== 'relevance') {
+    query.set('ordering', ordering);
   }
   return apiRequest(`/games?${query}`, { signal });
 }

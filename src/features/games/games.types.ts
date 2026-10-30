@@ -24,6 +24,20 @@ export interface GameDetails extends GameSummary {
 
 export interface GameSearchParams {
   search?: string;
+  ordering: GameOrdering;
   page: number;
   pageSize: number;
+}
+
+export const GAME_ORDERINGS = [
+  'relevance',
+  'popularity',
+  'rating',
+  'name',
+  'released',
+] as const;
+export type GameOrdering = (typeof GAME_ORDERINGS)[number];
+
+export function parseGameOrdering(value: string | null): GameOrdering {
+  return GAME_ORDERINGS.find((ordering) => ordering === value) ?? 'relevance';
 }

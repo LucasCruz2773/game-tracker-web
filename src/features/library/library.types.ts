@@ -2,6 +2,7 @@ import type { IsoDate } from '../../lib/dates';
 import type { GameSummary } from '../games/games.types';
 
 export const LIBRARY_STATUSES = [
+  'UNSET',
   'PLAYING',
   'BACKLOG',
   'COMPLETED',

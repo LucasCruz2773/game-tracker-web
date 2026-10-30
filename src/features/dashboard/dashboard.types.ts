@@ -1,6 +1,7 @@
 import type { LibraryStatus } from '../library/library.types';
 
 export interface LibraryStatusCounts {
+  UNSET: number;
   PLAYING: number;
   BACKLOG: number;
   COMPLETED: number;
